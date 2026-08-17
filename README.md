@@ -1,5 +1,7 @@
 # Portfolio — Oliver Infante
 
+[![CI](https://github.com/Inf015/portafolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Inf015/portafolio/actions/workflows/ci.yml)
+
 Personal portfolio of Oliver Infante, QA Engineer. Built with Next.js 16 (App Router),
 React 19 and Tailwind CSS v4. It is fully bilingual — Spanish and English — and uses no
 database: all the content lives in two files.
@@ -10,11 +12,39 @@ on the server.
 ## Running it
 
 ```bash
-npm run dev     # development server at http://localhost:3000
-npm run build   # production build
-npm start       # serves the production build
-npm run lint    # ESLint
+npm run dev       # development server at http://localhost:3000
+npm run build     # production build
+npm start         # serves the production build
+npm run lint      # ESLint
+npm test          # unit tests
+npm run test:humo # smoke tests — needs the site running
+npm run test:todo # both suites
 ```
+
+## Tests
+
+Two suites, because they answer different questions.
+
+**Unit** (`tests/unidad/`) — pure logic and content integrity, no server needed. The type
+system already guarantees both languages have every field; these cover what it can't see:
+a field that's present but empty, a list with a different number of entries in each
+language, a figure pointing at an image that doesn't exist, a project link with a trailing
+slash, or a block copied from `es.ts` and left untranslated.
+
+**Smoke** (`tests/humo/`) — against a running site, for what only exists once everything is
+assembled: language resolution from `Accept-Language` including quality factors, the legacy
+redirects, `hreflang`, the share image, the security headers, the custom 404, and the PDF
+actually coming back as a PDF and not as a 200 with an empty body.
+
+```bash
+npm run build && npm start
+npm run test:humo
+
+# or against production
+BASE=https://www.oliver-infante.dev npm run test:humo
+```
+
+Every failure these cover is one that actually happened while building this site.
 
 ## The site is in two languages
 

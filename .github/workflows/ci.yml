@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Tipos
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Pruebas unitarias
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # Las de humo necesitan el sitio en pie. Se levanta el build recién hecho y se
+      # espera a que conteste: arrancar y pedir de inmediato daba falsos negativos.
+      - name: Pruebas de humo
+        run: |
+          npm start &
+          npx wait-on -t 60000 http://localhost:3000/es
+          npm run test:humo
+        env:
+          BASE: http://localhost:3000
