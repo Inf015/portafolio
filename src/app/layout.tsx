@@ -25,8 +25,9 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
-// TODO: reemplazar por el dominio real una vez desplegado.
-const sitio = "https://oliverinfante.dev";
+// Con `www`: el apex redirige aquí con un 308, así que este es el canónico. Usar el
+// apex haría que cada rastreador que lea los metadatos pasara antes por un salto.
+const sitio = "https://www.oliver-infante.dev";
 
 const descripcion = `${perfil.titulo} en ${perfil.ubicacion}. Pruebas manuales, casos de prueba funcionales, suites de regresión y seguimiento de errores, con base sólida en desarrollo de software.`;
 

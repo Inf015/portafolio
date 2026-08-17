@@ -120,7 +120,21 @@ function origenPublico(peticion: Request) {
 
 /** Respuesta compartida por las rutas `/cv/pdf` y `/cv/en/pdf`. */
 export async function respuestaPdfCV(peticion: Request, idioma: IdiomaCV) {
-  const pdf = await generarPdf(idioma, origenPublico(peticion));
+  let pdf;
+  try {
+    pdf = await generarPdf(idioma, origenPublico(peticion));
+  } catch (error) {
+    /*
+     * Sin esto el fallo llega como un 500 mudo y hay que adivinar la causa desde fuera.
+     * El detalle va al registro del servidor, no a la respuesta: el repositorio es
+     * público y una traza de pila no es algo que enseñarle a quien venía por el CV.
+     */
+    console.error(`Falló la generación del PDF del CV (${idioma}):`, error);
+    return new Response("No se pudo generar el PDF del CV.", {
+      status: 500,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
 
   // Copia a un Uint8Array respaldado por un ArrayBuffer normal: lo que puppeteer devuelve
   // puede apoyarse en un SharedArrayBuffer, que no vale como cuerpo de respuesta.
