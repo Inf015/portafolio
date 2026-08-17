@@ -1,26 +1,188 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Papel: crudo y cálido, como una hoja impresa — no blanco de pantalla. */
+  --color-papel: #f4f1ea;
+  --color-papel-alto: #faf8f3;
+  --color-papel-hundido: #ebe7dd;
+
+  /* Tinta */
+  --color-tinta: #16150f;
+  --color-tinta-media: #4a4739;
+  --color-tinta-clara: #7d7969;
+
+  /* Reglas y márgenes del documento */
+  --color-regla: #d6d0c2;
+  --color-regla-fina: #e3ded1;
+
+  /* Rojo de carrera: único acento fuerte del documento. */
+  --color-sello: #c1121f;
+  --color-sello-claro: #e03e4a;
+
+  /* Estados de una corrida de pruebas */
+  --color-aprobado: #3d6b47;
+  --color-defecto: #c1121f;
+  --color-pendiente: #96712a;
+
 }
 
+/*
+ * `inline` es obligatorio acá: next/font declara --fuente-* en el <body>, no en :root.
+ * Sin `inline`, las utilidades resolverían var(--fuente-serif) en :root —donde no existe—
+ * y la familia entera se invalidaría, cayendo al tipo del sistema.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--fuente-serif), ui-serif, Georgia, serif;
+  --font-sans: var(--fuente-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--fuente-mono), ui-monospace, "SF Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-papel);
+  color: var(--color-tinta);
+  /* Referencia directa a la variable de next/font: el <body> es quien la declara. */
+  font-family: var(--fuente-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* Grano de papel muy tenue: rompe la planitud digital del fondo. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background-color: var(--color-sello);
+  color: var(--color-papel-alto);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-sello);
+  outline-offset: 3px;
+}
+
+/* Numeración tipográfica alineada, imprescindible en tablas y fichas. */
+.nums-tabulares {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Versalitas para etiquetas de campo del documento. */
+.etiqueta-campo {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-tinta-clara);
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animar-entrada {
+  animation: aparecer 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/*
+ * El contenido solo se oculta a la espera de la animación cuando hay JavaScript.
+ * Sin JS la clase `js` nunca se agrega al <html> y todo se ve normalmente.
+ */
+.js .revelar-oculto {
+  opacity: 0;
+}
+
+/*
+ * Red de seguridad: si React no hidrató a tiempo, nadie va a revelar el contenido.
+ * Debe declararse después de la regla anterior para ganarle con la misma especificidad.
+ */
+.forzar-visible .revelar-oculto {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animar-entrada {
+    animation: none;
+  }
+
+  .js .revelar-oculto {
+    opacity: 1;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 15mm;
+  }
+
+  /*
+   * En el PDF el papel es blanco, no el crema del sitio.
+   *
+   * No es una concesión estética: Chrome no pinta el área de márgenes de `@page`, y el
+   * fondo de un elemento solo cubre hasta donde llega su contenido. Con el crema puesto,
+   * el documento salía con un marco blanco alrededor y la última página cortada a media
+   * altura, donde terminaba el texto. Forzarlo pediría `@page { margin: 0 }`, que deja la
+   * página 2 pegada al borde de la hoja — peor el remedio.
+   *
+   * El papel crudo es identidad de la pantalla. Un CV impreso se espera blanco, gasta
+   * menos tinta y no depende de que quien lo imprima active los gráficos de fondo.
+   */
+  html,
+  body {
+    background: #fff;
+    background-image: none;
+  }
+
+  body {
+    /* En papel, un cuerpo con serif se lee mejor y ocupa menos. */
+    font-family: var(--fuente-serif), Georgia, serif;
+  }
+
+  /* Los colores de marca deben imprimirse, no blanquearse. */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Nada de contenido oculto esperando una animación que en papel nunca ocurre. */
+  .revelar-oculto {
+    opacity: 1 !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  /* Ni una línea suelta al pie ni al inicio de una hoja. */
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* En papel un enlace no se pulsa: que no grite. En el PDF sigue siendo clicable. */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }

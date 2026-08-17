@@ -1,0 +1,137 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { perfil } from "@/data/perfil";
+
+const enlaces = [
+  { href: "#sobre-mi", texto: "Perfil", seccion: "1" },
+  { href: "#habilidades", texto: "Competencias", seccion: "2" },
+  { href: "#como-trabajo", texto: "Cómo trabajo", seccion: "3" },
+  { href: "#experiencia", texto: "Trayectoria", seccion: "4" },
+  { href: "#proyectos", texto: "Casos", seccion: "5" },
+  { href: "#formacion", texto: "Credenciales", seccion: "6" },
+  { href: "#intereses", texto: "Fuera del código", seccion: "7" },
+  { href: "#contacto", texto: "Contacto", seccion: "8" },
+];
+
+export function Nav() {
+  const [desplazado, setDesplazado] = useState(false);
+  const [abierto, setAbierto] = useState(false);
+
+  useEffect(() => {
+    const alDesplazar = () => setDesplazado(window.scrollY > 24);
+    alDesplazar();
+    window.addEventListener("scroll", alDesplazar, { passive: true });
+    return () => window.removeEventListener("scroll", alDesplazar);
+  }, []);
+
+  return (
+    <header
+      className={`fixed inset-x-0 top-0 z-40 border-b transition-colors duration-300 ${
+        desplazado || abierto
+          ? "border-regla bg-papel/92 backdrop-blur-sm"
+          : "border-transparent"
+      }`}
+    >
+      <nav
+        aria-label="Navegación principal"
+        className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-6 py-3.5 lg:px-10"
+      >
+        <a href="#inicio" className="group flex items-baseline gap-2.5">
+          <span className="font-serif text-[15px] font-semibold tracking-tight text-tinta">
+            {perfil.nombre}
+          </span>
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.12em] text-tinta-clara sm:inline">
+            QA
+          </span>
+        </a>
+
+        <ul className="hidden items-center gap-6 md:flex">
+          {enlaces.map((enlace) => (
+            <li key={enlace.href}>
+              <a
+                href={enlace.href}
+                className="group flex items-baseline gap-1.5 text-[13px] text-tinta-media transition-colors hover:text-sello"
+              >
+                <span className="font-mono text-[10px] text-tinta-clara transition-colors group-hover:text-sello">
+                  §{enlace.seccion}
+                </span>
+                {enlace.texto}
+              </a>
+            </li>
+          ))}
+          <li>
+            <Link
+              href={perfil.cv}
+              className="border border-tinta px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-tinta transition-colors hover:bg-tinta hover:text-papel-alto"
+            >
+              CV
+            </Link>
+          </li>
+        </ul>
+
+        <button
+          type="button"
+          onClick={() => setAbierto((v) => !v)}
+          aria-expanded={abierto}
+          aria-controls="menu-movil"
+          aria-label={abierto ? "Cerrar menú" : "Abrir menú"}
+          className="flex h-8 w-8 items-center justify-center border border-regla text-tinta-media transition-colors hover:border-tinta hover:text-tinta md:hidden"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            aria-hidden="true"
+          >
+            {abierto ? (
+              <>
+                <path d="M4 4l8 8" />
+                <path d="M12 4l-8 8" />
+              </>
+            ) : (
+              <>
+                <path d="M2.5 5h11" />
+                <path d="M2.5 11h11" />
+              </>
+            )}
+          </svg>
+        </button>
+      </nav>
+
+      {abierto && (
+        <div id="menu-movil" className="border-t border-regla-fina md:hidden">
+          <ul className="mx-auto w-full max-w-6xl divide-y divide-regla-fina px-6">
+            {enlaces.map((enlace) => (
+              <li key={enlace.href}>
+                <a
+                  href={enlace.href}
+                  onClick={() => setAbierto(false)}
+                  className="flex items-baseline gap-2.5 py-3 text-sm text-tinta-media"
+                >
+                  <span className="font-mono text-[10px] text-tinta-clara">
+                    §{enlace.seccion}
+                  </span>
+                  {enlace.texto}
+                </a>
+              </li>
+            ))}
+            <li>
+              <Link
+                href={perfil.cv}
+                onClick={() => setAbierto(false)}
+                className="block py-3 font-mono text-[11px] uppercase tracking-[0.1em] text-sello"
+              >
+                Ver CV
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
+    </header>
+  );
+}
