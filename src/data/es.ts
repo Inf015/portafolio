@@ -405,7 +405,7 @@ export const es: Contenido = {
       ],
       destacado: false,
       estado: "En producción",
-      enlace: "https://t.me/KepubliBot",
+      enlace: "https://kepubli.com",
     },
     /*
      * Ocupa el sitio que tenía el homelab. El homelab sigue contándose en «Fuera del
@@ -534,6 +534,7 @@ export const es: Contenido = {
 
     figura: "Fig.",
     foto: "Foto",
+    comillas: { abre: "«", cierra: "»" },
 
     elCicloPasoAPaso: "El ciclo, paso a paso",
     casoDePrueba: "Caso de prueba",
@@ -564,6 +565,11 @@ export const es: Contenido = {
     educacion: "Educación",
     certificaciones: "Certificaciones",
     idiomasEtiqueta: "Idiomas",
+
+    noEncontradoTitulo: "Página no encontrada",
+    noEncontradoTexto:
+      "Esta dirección no corresponde a ninguna sección del documento. Puede que el enlace esté mal escrito o que la sección ya no exista.",
+    volverAlInicio: "Volver al inicio",
 
     contactoDisponible:
       "Estoy abierto a oportunidades en QA, testing y automatización. Si tienes una vacante o un proyecto en mente, escríbeme.",

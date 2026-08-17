@@ -72,7 +72,9 @@ export function Paralelo({ idioma }: { idioma: Idioma }) {
 
           <Revelar retraso={300}>
             <p className="mt-10 font-serif text-2xl italic leading-snug text-papel-alto sm:text-[1.75rem]">
-              «{c.lema}»
+              {c.ui.comillas.abre}
+              {c.lema}
+              {c.ui.comillas.cierra}
             </p>
           </Revelar>
         </div>

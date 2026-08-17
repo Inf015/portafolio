@@ -56,5 +56,11 @@ export const imagenes = {
 
 export type ClaveImagen = keyof typeof imagenes;
 
+/**
+ * El dominio canónico. Con `www`: el apex redirige aquí con un 308, así que usar el apex
+ * haría que cada rastreador pasara antes por un salto al leer los metadatos.
+ */
+export const SITIO = "https://www.oliver-infante.dev";
+
 /** Revisión del documento, que se muestra en el encabezado y en el pie. */
 export const revision = "2026.08";

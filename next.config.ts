@@ -28,12 +28,9 @@ const nextConfig: NextConfig = {
   // El `*` cubre el cambio de IP por DHCP dentro de la red local.
   allowedDevOrigins: ["192.168.0.*", "*.ngrok-free.app", "*.ngrok.io"],
 
-  images: {
-    // El sitio se sirve como estático (Cloudflare Pages, Netlify…), donde no hay
-    // servidor que optimice imágenes al vuelo. Ya se sirven redimensionadas y
-    // comprimidas desde /public, así que se entregan tal cual.
-    unoptimized: true,
-  },
+  // El sitio corre en Vercel, que sí optimiza al vuelo: sirve AVIF o WebP y el tamaño
+  // que pida cada pantalla. Estuvo desactivado mientras el destino era un host estático;
+  // ya no lo es, y son siete imágenes, muy lejos del límite del plan gratuito.
 };
 
 export default nextConfig;

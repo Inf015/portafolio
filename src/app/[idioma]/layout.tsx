@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
 import { notFound } from "next/navigation";
-import { perfil } from "@/data/comun";
+import { perfil, SITIO } from "@/data/comun";
 import { contenido, esIdioma, IDIOMAS, rutas } from "@/data/contenido";
 import "../globals.css";
 
@@ -33,8 +33,6 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
-const sitio = "https://www.oliver-infante.dev";
-
 export function generateStaticParams() {
   return IDIOMAS.map((idioma) => ({ idioma }));
 }
@@ -54,7 +52,7 @@ export async function generateMetadata({
       : `${c.titulo} in ${c.ubicacion}. Manual testing, functional test cases, regression suites and defect tracking, on a solid software development foundation.`;
 
   return {
-    metadataBase: new URL(sitio),
+    metadataBase: new URL(SITIO),
     title: {
       default: `${perfil.nombre} — ${c.titulo}`,
       template: `%s · ${perfil.nombre}`,
@@ -70,7 +68,7 @@ export async function generateMetadata({
       c.ubicacion,
       perfil.nombre,
     ],
-    authors: [{ name: perfil.nombre, url: sitio }],
+    authors: [{ name: perfil.nombre, url: SITIO }],
     creator: perfil.nombre,
     alternates: {
       canonical: rutas.inicio(idioma),
@@ -81,7 +79,7 @@ export async function generateMetadata({
     openGraph: {
       type: "profile",
       locale: idioma === "es" ? "es_DO" : "en_US",
-      url: `${sitio}${rutas.inicio(idioma)}`,
+      url: `${SITIO}${rutas.inicio(idioma)}`,
       title: `${perfil.nombre} — ${c.titulo}`,
       description: descripcion,
       siteName: `${perfil.nombre} · ${c.ui.encabezadoDocumento}`,

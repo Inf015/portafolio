@@ -162,6 +162,8 @@ export type Contenido = {
 
     figura: string;
     foto: string;
+    /** Las comillas del idioma: « » en español, “ ” en inglés. */
+    comillas: { abre: string; cierra: string };
 
     elCicloPasoAPaso: string;
     casoDePrueba: string;
@@ -192,6 +194,10 @@ export type Contenido = {
     educacion: string;
     certificaciones: string;
     idiomasEtiqueta: string;
+
+    noEncontradoTitulo: string;
+    noEncontradoTexto: string;
+    volverAlInicio: string;
 
     contactoDisponible: string;
     contactoNoDisponible: string;

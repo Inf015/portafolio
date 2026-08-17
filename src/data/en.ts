@@ -395,7 +395,7 @@ export const en: Contenido = {
       tags: ["Python", "Telegram Bot API", "Docker", "pytest", "Automation"],
       destacado: false,
       estado: "In production",
-      enlace: "https://t.me/KepubliBot",
+      enlace: "https://kepubli.com",
     },
     {
       nombre: "La Infantería Motorsport",
@@ -516,6 +516,7 @@ export const en: Contenido = {
 
     figura: "Fig.",
     foto: "Photo",
+    comillas: { abre: "\u201C", cierra: "\u201D" },
 
     elCicloPasoAPaso: "The cycle, step by step",
     casoDePrueba: "Test case",
@@ -546,6 +547,11 @@ export const en: Contenido = {
     educacion: "Education",
     certificaciones: "Certifications",
     idiomasEtiqueta: "Languages",
+
+    noEncontradoTitulo: "Page not found",
+    noEncontradoTexto:
+      "This address doesn't match any section of the document. The link may be mistyped, or the section may no longer exist.",
+    volverAlInicio: "Back to the start",
 
     contactoDisponible:
       "I'm open to opportunities in QA, testing and automation. If you have a role or a project in mind, write to me.",
