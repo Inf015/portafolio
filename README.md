@@ -1,176 +1,178 @@
-# Portafolio — Oliver Infante
+# Portfolio — Oliver Infante
 
-Portafolio personal de Oliver Infante, Ingeniero QA. Construido con Next.js 16 (App Router),
-React 19 y Tailwind CSS v4. Está íntegramente en español e inglés, y no usa base de
-datos: todo el contenido vive en dos archivos.
+Personal portfolio of Oliver Infante, QA Engineer. Built with Next.js 16 (App Router),
+React 19 and Tailwind CSS v4. It is fully bilingual — Spanish and English — and uses no
+database: all the content lives in two files.
 
-Las páginas son estáticas, salvo la ruta que genera el PDF del CV, que necesita
-ejecutarse en el servidor.
+The pages are static, except the route that generates the CV as a PDF, which needs to run
+on the server.
 
-## Cómo ejecutarlo
+## Running it
 
 ```bash
-npm run dev     # servidor de desarrollo en http://localhost:3000
-npm run build   # build de producción
-npm start       # sirve el build de producción
+npm run dev     # development server at http://localhost:3000
+npm run build   # production build
+npm start       # serves the production build
 npm run lint    # ESLint
 ```
 
-## El sitio está en dos idiomas
+## The site is in two languages
 
-Español e inglés, completos: el portafolio, el CV y hasta los rótulos de los botones.
+Spanish and English, both complete: the portfolio, the CV, down to the button labels.
 
-Quien llega a la raíz es enviado a uno u otro según el `Accept-Language` de su navegador.
-Si elige idioma a mano en el conmutador del menú, esa elección queda en una cookie y manda
-sobre la configuración del navegador en las visitas siguientes.
+Anyone landing on the root is sent to one or the other based on their browser's
+`Accept-Language`. If they pick a language by hand in the menu switcher, that choice is
+stored in a cookie and overrides the browser setting on later visits.
 
-| Ruta | Qué es |
+| Route | What it is |
 | --- | --- |
-| `/` | Redirige a `/es` o `/en` según el navegador |
-| `/es`, `/en` | Portafolio |
+| `/` | Redirects to `/es` or `/en` based on the browser |
+| `/es`, `/en` | Portfolio |
 | `/es/cv`, `/en/cv` | CV |
-| `/es/cv/pdf`, `/en/cv/pdf` | El CV en PDF, generado al vuelo |
+| `/es/cv/pdf`, `/en/cv/pdf` | The CV as a PDF, generated on demand |
 
-La lógica de detección está en `src/proxy.ts`.
+The detection logic lives in `src/proxy.ts`.
 
-## Cómo actualizar el contenido
+## Updating the content
 
-**Todo el texto vive en dos archivos gemelos: `src/data/es.ts` y `src/data/en.ts`.**
-No hace falta tocar los componentes para actualizar la información.
+**All the text lives in two twin files: `src/data/es.ts` and `src/data/en.ts`.**
+You never have to touch the components to update the information.
 
-Los dos implementan el tipo `Contenido` de `src/data/tipos.ts`, así que **si agregas un
-campo en uno y falta en el otro, el build falla**. Es la única defensa real contra una
-traducción a medias — pero el compilador no puede avisarte de que un texto se quedó
-desactualizado, así que al cambiar contenido en uno, reflétalo en el otro.
+Both implement the `Contenido` type from `src/data/tipos.ts`, so **if you add a field to
+one and leave it out of the other, the build fails**. That's the only real defense against
+a half-finished translation — but the compiler can't warn you that a text went stale, so
+when you change content in one, mirror it in the other.
 
-| Qué quieres cambiar | Dónde |
+| What you want to change | Where |
 | --- | --- |
-| Título, pitch, ubicación | raíz de `es.ts` / `en.ts` |
-| Párrafos de "Perfil" | `sobreMi` |
-| Títulos y bajadas de las secciones | `secciones` |
-| El bloque oscuro (pista ↔ software) | `paralelo` y `lema` |
-| Cifras de la portada | `metricas` |
-| El ciclo de trabajo | `flujoTrabajo` |
-| Las muestras de documentación | `casoDePrueba` y `reporteDefecto` |
-| Competencias por categoría | `habilidades` |
-| Puestos de trabajo | `experiencia` |
-| Casos / proyectos | `proyectos` |
-| Educación, certificaciones, idiomas | `educacion`, `certificaciones`, `idiomas` |
-| Sección "Fuera del código" | `intereses` |
-| Textos de botones, rótulos y etiquetas | `ui` |
-| Etiquetas propias del CV | `cv` |
+| Title, pitch, location | root of `es.ts` / `en.ts` |
+| "Profile" paragraphs | `sobreMi` |
+| Section titles and standfirsts | `secciones` |
+| The dark block (track ↔ software) | `paralelo` and `lema` |
+| Front-page figures | `metricas` |
+| The work cycle | `flujoTrabajo` |
+| The documentation samples | `casoDePrueba` and `reporteDefecto` |
+| Skills by category | `habilidades` |
+| Jobs | `experiencia` |
+| Cases / projects | `proyectos` |
+| Education, certifications, languages | `educacion`, `certificaciones`, `idiomas` |
+| "Outside the code" section | `intereses` |
+| Button text, labels and captions | `ui` |
+| Labels specific to the CV | `cv` |
 
-**Lo que no se traduce vive en `src/data/comun.ts`**: nombre, correo, LinkedIn, GitHub, la
-insignia de "Disponible" y los archivos de imagen con sus dimensiones. Están ahí para no
-tener que cambiarlos en dos sitios. El texto alternativo y el pie de cada figura sí se
-traducen, y viven en `figuras` dentro de cada idioma.
+**What doesn't get translated lives in `src/data/comun.ts`**: name, email, LinkedIn,
+GitHub, the "Available" badge and the image files with their dimensions. They're there so
+you don't have to change them in two places. The alt text and caption of each figure *are*
+translated, and live under `figuras` inside each language.
 
-### El teléfono
+> The codebase is written in Spanish — identifiers, comments and data keys. That's
+> deliberate and consistent; only the documentation is in English.
 
-**No está en el repositorio, y es a propósito**: este repo es público, y un número en el
-código lo recogen los rastreadores de spam aunque el sitio nunca llegue a mostrarlo.
+### The phone number
 
-Para que aparezca en el CV y en la sección de contacto:
+**It isn't in the repository, on purpose**: this repo is public, and a number in the code
+gets picked up by spam crawlers even if the site never displays it.
+
+To have it appear on the CV and in the contact section:
 
 ```bash
-# .env.local — git lo ignora
+# .env.local — git ignores it
 NEXT_PUBLIC_TELEFONO="+1 809-000-0000"
 ```
 
-Y pon `perfil.mostrarTelefono` en `true`. En Vercel, la misma variable se define en los
-ajustes del proyecto. Sin la variable, activar el interruptor no rompe nada: el bloque de
-contacto simplemente no incluye el teléfono.
+And set `perfil.mostrarTelefono` to `true`. On Vercel, the same variable is defined in the
+project settings. Without the variable, flipping the switch breaks nothing: the contact
+block simply leaves the phone out.
 
-### Pendientes por completar
+### Still to do
 
-- `proyectos` → La Infantería Motorsport — sin `enlace` porque el repositorio es privado.
-  Si se publica, al agregar `enlace` aparece solo el botón "Ver proyecto".
+- `proyectos` → La Infantería Motorsport — no `enlace` because the repository is private.
+  If it's ever published, adding `enlace` brings back the "View project" button on its own.
 
-### El CV
+### The CV
 
-Las dos versiones renderizan el mismo componente (`src/components/DocumentoCV.tsx`) a
-partir del contenido de su idioma, así que no puede desincronizarse del portafolio: es la
-misma fuente. El botón de descarga no se imprime.
+Both versions render the same component (`src/components/DocumentoCV.tsx`) from their own
+language's content, so it can't drift out of sync with the portfolio: it's the same source.
+The download button isn't printed.
 
-### Cómo se generan los PDFs
+### How the PDFs are generated
 
-`src/lib/cv-pdf.ts` abre la propia página del CV en un Chromium headless y devuelve el
-resultado. **No hay ningún PDF guardado en el repositorio**: se renderiza en cada
-descarga, así que no puede quedarse desactualizado respecto a los datos. Editas
-`es.ts` o `en.ts`, despliegas, y el siguiente que lo descargue se lleva la versión nueva.
+`src/lib/cv-pdf.ts` opens the CV page itself in a headless Chromium and returns the result.
+**No PDF is stored in the repository**: it is rendered on every download, so it can never
+go stale against the data. You edit `es.ts` or `en.ts`, deploy, and the next person to
+download it gets the new version.
 
-- En Vercel el navegador lo aporta `@sparticuz/chromium`. En local se usa el Chrome,
-  Brave, Edge o Chromium que ya esté instalado; si está en una ruta rara, `CHROME_BIN`.
-- La CDN cachea el PDF una hora para no arrancar un navegador por descarga. Cada
-  despliegue invalida esa caché solo, así que no hay nada que purgar a mano.
-- El PDF sale **en blanco**, no con el papel crudo del sitio: Chrome no pinta el área de
-  márgenes de `@page`, así que el crema dejaba un marco blanco y cortaba la última página
-  donde terminaba el texto. Ver el bloque `@media print` en `globals.css`.
+- On Vercel the browser comes from `@sparticuz/chromium`. Locally it uses whichever Chrome,
+  Brave, Edge or Chromium is already installed; if it sits in an unusual path, `CHROME_BIN`.
+- The CDN caches the PDF for an hour so a browser isn't launched per download. Each deploy
+  invalidates that cache by itself, so there is nothing to purge by hand.
+- The PDF comes out **white**, not on the site's raw paper stock: Chrome doesn't paint the
+  `@page` margin area, so the cream left a white frame and cut the last page off where the
+  text ended. See the `@media print` block in `globals.css`.
 
-## Estructura
+## Structure
 
 ```
 src/
 ├── app/
-│   ├── [idioma]/       # el segmento de idioma envuelve todo el sitio
-│   │   ├── layout.tsx  # layout raíz: <html lang>, fuentes, metadatos, SEO
-│   │   ├── page.tsx    # orden de las secciones del portafolio
-│   │   ├── cv/page.tsx # el CV
-│   │   └── cv/pdf/     # ruta que devuelve el PDF
-│   ├── icon.tsx        # favicon generado
-│   └── globals.css     # tema (papel, tinta, tipografía, animaciones)
-├── proxy.ts            # detección de idioma y rutas heredadas
-├── components/         # una sección por archivo
-├── lib/cv-pdf.ts       # render del PDF con Chromium headless
+│   ├── [idioma]/       # the language segment wraps the whole site
+│   │   ├── layout.tsx  # root layout: <html lang>, fonts, metadata, SEO
+│   │   ├── page.tsx    # the order of the portfolio sections
+│   │   ├── cv/page.tsx # the CV
+│   │   └── cv/pdf/     # route that returns the PDF
+│   ├── icon.tsx        # generated favicon
+│   └── globals.css     # theme (paper, ink, typography, animations)
+├── proxy.ts            # language detection and legacy routes
+├── components/         # one section per file
+├── lib/cv-pdf.ts       # PDF rendering with headless Chromium
 └── data/
-    ├── tipos.ts        # la forma del contenido; obliga a que los dos idiomas cuadren
-    ├── es.ts, en.ts    # ← todo el texto
-    ├── comun.ts        # lo que no se traduce
-    └── contenido.ts    # punto de entrada e idiomas
+    ├── tipos.ts        # the shape of the content; forces both languages to line up
+    ├── es.ts, en.ts    # ← all the text
+    ├── comun.ts        # what doesn't get translated
+    └── contenido.ts    # entry point and languages
 ```
 
-> El layout raíz vive en `app/[idioma]/layout.tsx` y **no hay `app/layout.tsx`**. Cuando
-> todas las rutas cuelgan de un segmento dinámico, Next toma el layout de ese segmento
-> como raíz — que es la única forma de poner el idioma en el `<html>`, porque un layout
-> raíz no recibe parámetros.
+> The root layout lives at `app/[idioma]/layout.tsx` and **there is no `app/layout.tsx`**.
+> When every route hangs off a dynamic segment, Next treats that segment's layout as the
+> root — which is the only way to put the language on the `<html>` element, because a root
+> layout receives no params.
 
-## Notas de diseño
+## Design notes
 
-El sitio está construido como un **documento técnico impreso**, no como una landing page:
-papel crudo, tipografía editorial, secciones numeradas como cláusulas (§1, §2…) y una
-ficha de datos en el encabezado. La idea es que la forma refleje el oficio — un QA
-trabaja en documentos: casos de prueba, reportes de defectos, matrices de trazabilidad.
+The site is built as a **printed technical document**, not a landing page: raw paper,
+editorial typography, sections numbered like clauses (§1, §2…) and a data sheet in the
+header. The idea is that the form reflects the trade — a QA engineer works in documents:
+test cases, defect reports, traceability matrices.
 
-- **Tipografía**: IBM Plex Serif (títulos), Sans (cuerpo) y Mono (datos y metadatos).
-  Es una familia diseñada para documentación de ingeniería.
-- **Color**: papel `#f4f1ea` y tinta `#16150f`, con un único acento — el rojo de carrera
-  `#c1121f`, que conecta con el mundo del automovilismo.
-- **El bloque oscuro** a mitad del documento es el argumento del sitio: el método de
-  medición del drag racing y el del QA son el mismo. Es lo que hace que este portafolio
-  no sea intercambiable con otro.
-- **Accesibilidad**: enlace para saltar al contenido, foco visible, HTML semántico y
-  respeto por `prefers-reduced-motion`.
-- **Sin JavaScript el sitio se ve completo**: las animaciones de entrada solo ocultan
-  contenido cuando el JS está disponible para revelarlo.
+- **Typography**: IBM Plex Serif (headings), Sans (body) and Mono (data and metadata). It's
+  a family designed for engineering documentation.
+- **Color**: paper `#f4f1ea` and ink `#16150f`, with a single accent — the racing red
+  `#c1121f`, which ties into the motorsport world.
+- **The dark block** halfway down the document is the argument of the site: the measurement
+  method of drag racing and of QA are the same one. It's what keeps this portfolio from
+  being interchangeable with any other.
+- **Accessibility**: skip-to-content link, visible focus, semantic HTML and respect for
+  `prefers-reduced-motion`.
+- **The site is complete without JavaScript**: the entrance animations only hide content
+  when JS is available to reveal it.
 
-### Una trampa a recordar
+### A trap worth remembering
 
-En `globals.css`, las fuentes se declaran en un bloque `@theme inline` aparte de los
-colores. Es obligatorio: `next/font` declara las variables `--fuente-*` en el `<body>`,
-no en `:root`. Sin `inline`, Tailwind intentaría resolverlas en `:root`, la familia
-entera quedaría inválida y todo el sitio caería al tipo del sistema.
+In `globals.css`, the fonts are declared in an `@theme inline` block separate from the
+colors. It's mandatory: `next/font` declares the `--fuente-*` variables on `<body>`, not on
+`:root`. Without `inline`, Tailwind would try to resolve them against `:root` — where they
+don't exist — the whole family would be invalid, and the entire site would fall back to the
+system typeface.
 
-## Despliegue
+## Deployment
 
-[Vercel](https://vercel.com): importas el repositorio y no requiere configuración.
+[Vercel](https://vercel.com): import the repository, no configuration required.
 
-**Hace falta un host con funciones serverless de Node.** La ruta `/[idioma]/cv/pdf`
-arranca un Chromium para renderizar el PDF, así que un host puramente
-estático —GitHub Pages, o Cloudflare Pages sin functions— serviría el resto del sitio
-pero devolvería 404 en el botón de descarga del CV. Netlify sirve si se despliega con su
-adaptador de Next.
+**A host with Node serverless functions is required.** The `/[idioma]/cv/pdf` route starts
+a Chromium to render the PDF, so a purely static host — GitHub Pages, or Cloudflare Pages
+without functions — would serve the rest of the site but return 404 on the CV download
+button. Netlify works if deployed with its Next adapter.
 
-Si algún día se prefiere volver a un sitio 100 % estático, hay que borrar
-`src/app/[idioma]/cv/pdf/` y `src/lib/cv-pdf.ts`, y sustituir el botón de descarga de
-`DocumentoCV.tsx` por instrucciones de impresión. El proxy de idioma también necesita un
-host que lo ejecute.
+If a 100% static site is ever preferred again, delete `src/app/[idioma]/cv/pdf/` and
+`src/lib/cv-pdf.ts`, and replace the download button in `DocumentoCV.tsx` with printing
+instructions. The language proxy also needs a host that will run it.
