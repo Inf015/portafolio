@@ -12,8 +12,14 @@ const nextConfig: NextConfig = {
    * navegador y `executablePath()` revienta nada más entrar. Es exactamente el 500
    * instantáneo que daba /cv/pdf en producción mientras en local funcionaba.
    */
+  /*
+   * Ojo con la clave: son globs de picomatch, no rutas literales. Escrita como
+   * `/[idioma]/cv/pdf`, los corchetes se leen como una clase de caracteres —coincide con
+   * `i`, `d`, `o`, `m` o `a`, no con el segmento— y el archivo se despliega sin binario.
+   * De ahí que haya que escaparlos.
+   */
   outputFileTracingIncludes: {
-    "/[idioma]/cv/pdf": ["./node_modules/@sparticuz/chromium/bin/**"],
+    "/\\[idioma\\]/cv/pdf": ["./node_modules/@sparticuz/chromium/bin/**"],
   },
 
   // Hosts desde los que se permite abrir el servidor de desarrollo sin que Next
