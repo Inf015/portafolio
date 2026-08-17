@@ -1,9 +1,4 @@
-import {
-  casoDePrueba,
-  flujoTrabajo,
-  metricas,
-  reporteDefecto,
-} from "@/data/perfil";
+import { contenido, type Idioma } from "@/data/contenido";
 import { Revelar } from "./Revelar";
 import { Seccion } from "./Seccion";
 
@@ -41,18 +36,16 @@ function ListaNumerada({ items }: { items: string[] }) {
   );
 }
 
-export function ComoTrabajo() {
+export function ComoTrabajo({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+  const { casoDePrueba, reporteDefecto, ui } = c;
+
   return (
-    <Seccion
-      id="como-trabajo"
-      seccion="3"
-      titulo="Cómo trabajo"
-      descripcion="Un portafolio de QA que solo lista herramientas no dice nada. Esto es lo que produzco: el proceso y dos muestras reales de mi documentación."
-    >
+    <Seccion id="como-trabajo" seccion="3" {...c.secciones.comoTrabajo}>
       {/* Cifras */}
       <Revelar>
         <dl className="mb-14 grid grid-cols-2 gap-px border border-regla bg-regla lg:grid-cols-4">
-          {metricas.map((m) => (
+          {c.metricas.map((m) => (
             <div key={m.etiqueta} className="bg-papel-alto px-5 py-6">
               <dt className="font-serif text-[2.75rem] font-semibold leading-none tracking-[-0.03em] text-tinta nums-tabulares">
                 {m.valor}
@@ -72,9 +65,9 @@ export function ComoTrabajo() {
 
       {/* Flujo de trabajo */}
       <Revelar>
-        <h3 className="etiqueta-campo mb-5">El ciclo, paso a paso</h3>
+        <h3 className="etiqueta-campo mb-5">{ui.elCicloPasoAPaso}</h3>
         <ol className="mb-14 grid gap-px border border-regla bg-regla md:grid-cols-5">
-          {flujoTrabajo.map((etapa, i) => (
+          {c.flujoTrabajo.map((etapa, i) => (
             <li key={etapa.paso} className="relative bg-papel-alto p-5">
               <span className="font-mono text-[11px] nums-tabulares text-sello">
                 {String(i + 1).padStart(2, "0")}
@@ -96,7 +89,7 @@ export function ComoTrabajo() {
           <article className="h-full border border-regla bg-papel-alto">
             <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-regla bg-tinta px-5 py-2.5 text-papel-alto">
               <span className="font-mono text-[10px] uppercase tracking-[0.14em]">
-                Caso de prueba · {casoDePrueba.id}
+                {ui.casoDePrueba} · {casoDePrueba.id}
               </span>
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-papel/50">
                 {casoDePrueba.tipo}
@@ -109,23 +102,23 @@ export function ComoTrabajo() {
               </h3>
 
               <div className="grid grid-cols-2 gap-4 border-y border-regla-fina py-3">
-                <Campo etiqueta="Módulo">{casoDePrueba.modulo}</Campo>
-                <Campo etiqueta="Prioridad">{casoDePrueba.prioridad}</Campo>
+                <Campo etiqueta={ui.modulo}>{casoDePrueba.modulo}</Campo>
+                <Campo etiqueta={ui.prioridad}>{casoDePrueba.prioridad}</Campo>
               </div>
 
-              <Campo etiqueta="Precondiciones">
+              <Campo etiqueta={ui.precondiciones}>
                 <ListaNumerada items={casoDePrueba.precondiciones} />
               </Campo>
 
-              <Campo etiqueta="Pasos">
+              <Campo etiqueta={ui.pasos}>
                 <ListaNumerada items={casoDePrueba.pasos} />
               </Campo>
 
-              <Campo etiqueta="Resultado esperado">
+              <Campo etiqueta={ui.resultadoEsperado}>
                 {casoDePrueba.esperado}
               </Campo>
 
-              <Campo etiqueta="Resultado obtenido">
+              <Campo etiqueta={ui.resultadoObtenido}>
                 {casoDePrueba.obtenido}
               </Campo>
 
@@ -134,7 +127,7 @@ export function ComoTrabajo() {
                   {casoDePrueba.estado}
                 </span>
                 <span className="font-mono text-[11px] text-tinta-clara">
-                  Derivó en {casoDePrueba.defecto} →
+                  {ui.derivoEn} {casoDePrueba.defecto} →
                 </span>
               </div>
             </div>
@@ -146,10 +139,10 @@ export function ComoTrabajo() {
           <article className="h-full border border-tinta bg-papel-alto">
             <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-tinta bg-sello px-5 py-2.5 text-papel-alto">
               <span className="font-mono text-[10px] uppercase tracking-[0.14em]">
-                Reporte de defecto · {reporteDefecto.id}
+                {ui.reporteDefecto} · {reporteDefecto.id}
               </span>
               <span className="font-mono text-[10px] uppercase tracking-[0.14em]">
-                Severidad {reporteDefecto.severidad}
+                {ui.severidad} {reporteDefecto.severidad}
               </span>
             </header>
 
@@ -159,30 +152,30 @@ export function ComoTrabajo() {
               </h3>
 
               <div className="grid grid-cols-2 gap-4 border-y border-regla-fina py-3">
-                <Campo etiqueta="Módulo">{reporteDefecto.modulo}</Campo>
-                <Campo etiqueta="Prioridad">{reporteDefecto.prioridad}</Campo>
-                <Campo etiqueta="Entorno" className="col-span-2">
+                <Campo etiqueta={ui.modulo}>{reporteDefecto.modulo}</Campo>
+                <Campo etiqueta={ui.prioridad}>{reporteDefecto.prioridad}</Campo>
+                <Campo etiqueta={ui.entorno} className="col-span-2">
                   <span className="font-mono text-[12px]">
                     {reporteDefecto.entorno}
                   </span>
                 </Campo>
               </div>
 
-              <Campo etiqueta="Pasos para reproducir">
+              <Campo etiqueta={ui.pasosParaReproducir}>
                 <ListaNumerada items={reporteDefecto.pasos} />
               </Campo>
 
-              <Campo etiqueta="Esperado">{reporteDefecto.esperado}</Campo>
-              <Campo etiqueta="Obtenido">{reporteDefecto.obtenido}</Campo>
+              <Campo etiqueta={ui.esperado}>{reporteDefecto.esperado}</Campo>
+              <Campo etiqueta={ui.obtenido}>{reporteDefecto.obtenido}</Campo>
 
               <div className="border-l-2 border-sello bg-sello/[0.04] py-2 pl-4">
-                <p className="etiqueta-campo mb-1 text-sello">Impacto</p>
+                <p className="etiqueta-campo mb-1 text-sello">{ui.impacto}</p>
                 <p className="text-[13.5px] leading-[1.65] text-tinta">
                   {reporteDefecto.impacto}
                 </p>
               </div>
 
-              <Campo etiqueta="Evidencia adjunta">
+              <Campo etiqueta={ui.evidenciaAdjunta}>
                 {reporteDefecto.evidencia}
               </Campo>
             </div>

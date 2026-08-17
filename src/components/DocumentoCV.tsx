@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { cv, rutaCV, rutaPdf, type IdiomaCV } from "@/data/cv";
-import { perfil } from "@/data/perfil";
-
-const IDIOMAS: IdiomaCV[] = ["es", "en"];
+import { perfil } from "@/data/comun";
+import { contenido, rutas, type Idioma } from "@/data/contenido";
 
 function Titulo({ children }: { children: React.ReactNode }) {
   return (
@@ -65,48 +63,15 @@ function SeccionRepetida<T>({
   );
 }
 
-/**
- * Conmutador de idioma. No se imprime: en papel el idioma ya está decidido.
- * Son enlaces reales a rutas distintas, así que funciona sin JavaScript y cada
- * versión se puede compartir por separado.
- */
-function SelectorIdioma({ actual }: { actual: IdiomaCV }) {
-  return (
-    <div className="flex items-center gap-1.5 print:hidden">
-      <span className="sr-only">{cv[actual].etiquetas.idiomaDelCv}</span>
-      {IDIOMAS.map((idioma) => {
-        const activo = idioma === actual;
-        return (
-          <Link
-            key={idioma}
-            href={rutaCV[idioma]}
-            hrefLang={cv[idioma].lang}
-            lang={cv[idioma].lang}
-            aria-current={activo ? "page" : undefined}
-            className={`border px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.1em] transition-colors ${
-              activo
-                ? "border-sello bg-sello text-papel-alto"
-                : "border-regla text-tinta-clara hover:border-sello hover:text-sello"
-            }`}
-          >
-            <span aria-hidden="true">{idioma}</span>
-            <span className="sr-only">{cv[idioma].nombreIdioma}</span>
-          </Link>
-        );
-      })}
-    </div>
-  );
-}
-
-export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
-  const doc = cv[idioma];
-  const t = doc.etiquetas;
+export function DocumentoCV({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+  const t = c.cv;
 
   /*
    * Contacto en dos renglones deliberados en vez de uno que se desborda.
-   * En una sola línea no cabe —la URL de LinkedIn se lleva media— y al cortarse dejaba
-   * el separador «·» colgando en el borde derecho. Partirlo por significado (quién soy /
-   * dónde encontrarme) hace que el corte se lea como decisión y no como accidente.
+   * En una sola línea no cabe, y al cortarse dejaba el separador «·» colgando en el
+   * borde derecho. Partirlo por significado (quién soy / dónde encontrarme) hace que el
+   * corte se lea como decisión y no como accidente.
    *
    * En el PDF estos datos sí se pueden pulsar, así que van como enlaces reales.
    */
@@ -123,7 +88,7 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
             },
           ]
         : []),
-      { texto: doc.ubicacion },
+      { texto: c.ubicacion },
     ],
     [
       { texto: perfil.linkedin.replace("https://", ""), href: perfil.linkedin },
@@ -132,11 +97,7 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
   ];
 
   return (
-    // `lang` en el <main>: el <html> del layout es `es`, y esta rama puede no serlo.
-    <main
-      lang={doc.lang}
-      className="mx-auto max-w-[820px] bg-papel-alto px-10 py-12 text-tinta print:max-w-none print:bg-transparent print:px-0 print:py-0"
-    >
+    <main className="mx-auto max-w-[820px] bg-papel-alto px-10 py-12 text-tinta print:max-w-none print:bg-transparent print:px-0 print:py-0">
       {/* Barra de utilidades. No se imprime: en papel ya no sirve de nada. */}
       <div className="mb-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 border border-regla bg-papel px-4 py-3 text-[13px] print:hidden">
         {/*
@@ -144,20 +105,17 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
          * nombre del archivo, y así el navegador puede previsualizarlo antes de guardar.
          */}
         <a
-          href={rutaPdf[idioma]}
+          href={rutas.pdf(idioma)}
           className="border border-sello bg-sello px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-papel-alto transition-colors hover:bg-sello-claro"
         >
           ↓ {t.descargarPdf}
         </a>
-        <div className="flex items-center gap-4">
-          <SelectorIdioma actual={idioma} />
-          <Link
-            href="/"
-            className="font-mono text-[11px] uppercase tracking-[0.1em] text-tinta-clara underline decoration-regla underline-offset-4 transition-colors hover:text-sello"
-          >
-            {t.volver}
-          </Link>
-        </div>
+        <Link
+          href={rutas.inicio(idioma)}
+          className="font-mono text-[11px] uppercase tracking-[0.1em] text-tinta-clara underline decoration-regla underline-offset-4 transition-colors hover:text-sello"
+        >
+          {t.volver}
+        </Link>
       </div>
 
       <header className="mb-7">
@@ -165,7 +123,7 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
           {perfil.nombre}
         </h1>
         <p className="mt-2 font-serif text-[1.05rem] text-tinta-media">
-          {doc.titulo} — {doc.subtitulo}
+          {c.titulo} — {c.subtitulo}
         </p>
         <div className="mt-3 space-y-0.5 font-mono text-[11px] text-tinta-media">
           {renglonesContacto.map((renglon) => (
@@ -197,14 +155,14 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
       <section className="mb-6 break-inside-avoid">
         <Titulo>{t.perfil}</Titulo>
         <p className="text-[13.5px] leading-[1.6] text-tinta-media">
-          {doc.pitch}
+          {c.pitch}
         </p>
       </section>
 
       <section className="mb-6 break-inside-avoid">
         <Titulo>{t.competencias}</Titulo>
         <dl className="space-y-1.5">
-          {doc.habilidades.map((grupo) => (
+          {c.habilidades.map((grupo) => (
             <div
               key={grupo.categoria}
               /* La columna de rótulos se dimensiona por el más largo en inglés
@@ -221,7 +179,7 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
 
       <SeccionRepetida
         titulo={t.experiencia}
-        datos={doc.experiencia}
+        datos={c.experiencia}
         clave={(puesto) => `${puesto.empresa}-${puesto.puesto}`}
         separacion="mt-4"
         fila={(puesto) => (
@@ -256,7 +214,7 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
 
       <SeccionRepetida
         titulo={t.proyectos}
-        datos={doc.proyectos}
+        datos={c.proyectos}
         clave={(proyecto) => proyecto.nombre}
         separacion="mt-3.5"
         fila={(proyecto) => (
@@ -291,31 +249,31 @@ export function DocumentoCV({ idioma }: { idioma: IdiomaCV }) {
         <div>
           <Titulo>{t.educacion}</Titulo>
           <p className="text-[13px] font-semibold text-tinta">
-            {doc.educacion.titulo}
-            {doc.educacion.distincion && (
+            {c.educacion.titulo}
+            {c.educacion.distincion && (
               <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.1em] text-sello">
-                {doc.educacion.distincion}
+                {c.educacion.distincion}
               </span>
             )}
           </p>
           <p className="text-[12.5px] text-tinta-media">
-            {doc.educacion.institucion}
+            {c.educacion.institucion}
           </p>
           <p className="font-mono text-[11px] nums-tabulares text-tinta-clara">
-            {doc.educacion.periodo}
+            {c.educacion.periodo}
           </p>
         </div>
 
         <div>
           <Titulo>{t.certificaciones}</Titulo>
           <ul className="space-y-1 text-[12.5px]">
-            {doc.certificaciones.map((cert) => (
+            {c.certificaciones.map((cert) => (
               <li key={cert.nombre} className="text-tinta-media">
                 <span className="font-semibold text-tinta">{cert.nombre}</span>{" "}
                 — {cert.estado} ({cert.anio})
               </li>
             ))}
-            {doc.idiomas.map((item) => (
+            {c.idiomas.map((item) => (
               <li key={item.idioma} className="text-tinta-media">
                 <span className="font-semibold text-tinta">{item.idioma}</span> —{" "}
                 {item.nivel}

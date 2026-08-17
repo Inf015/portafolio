@@ -13,8 +13,7 @@ const nextConfig: NextConfig = {
    * instantáneo que daba /cv/pdf en producción mientras en local funcionaba.
    */
   outputFileTracingIncludes: {
-    "/cv/pdf": ["./node_modules/@sparticuz/chromium/bin/**"],
-    "/cv/en/pdf": ["./node_modules/@sparticuz/chromium/bin/**"],
+    "/[idioma]/cv/pdf": ["./node_modules/@sparticuz/chromium/bin/**"],
   },
 
   // Hosts desde los que se permite abrir el servidor de desarrollo sin que Next

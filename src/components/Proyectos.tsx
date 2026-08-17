@@ -1,18 +1,15 @@
-import { proyectos } from "@/data/perfil";
+import { contenido, type Idioma } from "@/data/contenido";
 import { Figura } from "./Figura";
 import { Revelar } from "./Revelar";
 import { Seccion } from "./Seccion";
 
-export function Proyectos() {
+export function Proyectos({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+
   return (
-    <Seccion
-      id="proyectos"
-      seccion="5"
-      titulo="Casos"
-      descripcion="Trabajo donde apliqué QA y desarrollo de punta a punta."
-    >
+    <Seccion id="proyectos" seccion="5" {...c.secciones.proyectos}>
       <div className="space-y-6">
-        {proyectos.map((proyecto, i) => (
+        {c.proyectos.map((proyecto, i) => (
           <Revelar key={proyecto.nombre} retraso={i * 70}>
             <article
               className={`border bg-papel-alto ${
@@ -28,11 +25,11 @@ export function Proyectos() {
                 }`}
               >
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] nums-tabulares">
-                  Caso {String(i + 1).padStart(2, "0")}
+                  {c.ui.caso} {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em]">
                   {proyecto.estado ??
-                    (proyecto.destacado ? "Destacado" : "Personal")}
+                    (proyecto.destacado ? c.ui.destacado : c.ui.personal)}
                 </span>
               </header>
 
@@ -48,7 +45,7 @@ export function Proyectos() {
                   </div>
 
                   <dl className="self-start border-t border-regla-fina pt-3">
-                    <dt className="etiqueta-campo">Rol</dt>
+                    <dt className="etiqueta-campo">{c.ui.rol}</dt>
                     <dd className="mt-1 text-[13px] leading-snug text-tinta">
                       {proyecto.rol}
                     </dd>
@@ -56,7 +53,7 @@ export function Proyectos() {
                 </div>
 
                 <div className="mt-7 border-t border-regla-fina pt-5">
-                  <p className="etiqueta-campo mb-3">Detalle</p>
+                  <p className="etiqueta-campo mb-3">{c.ui.detalle}</p>
                   <ul className="space-y-2.5">
                     {proyecto.detalles.map((detalle, j) => (
                       <li
@@ -75,15 +72,7 @@ export function Proyectos() {
                 {proyecto.figuras && (
                   <div className="mt-7 grid gap-5 border-t border-regla-fina pt-6 lg:grid-cols-2">
                     {proyecto.figuras.map((figura) => (
-                      <Figura
-                        key={figura.src}
-                        src={figura.src}
-                        alt={figura.alt}
-                        numero={figura.numero}
-                        pie={figura.pie}
-                        ancho={figura.ancho}
-                        alto={figura.alto}
-                      />
+                      <Figura key={figura.recurso} figura={figura} ui={c.ui} />
                     ))}
                   </div>
                 )}
@@ -107,7 +96,7 @@ export function Proyectos() {
                       rel="noopener noreferrer"
                       className="font-mono text-[11px] uppercase tracking-[0.12em] text-sello underline decoration-sello/40 underline-offset-4 transition-colors hover:decoration-sello"
                     >
-                      Ver proyecto ↗
+                      {c.ui.verProyecto} ↗
                     </a>
                   )}
                 </div>

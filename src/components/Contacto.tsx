@@ -1,4 +1,5 @@
-import { perfil } from "@/data/perfil";
+import { perfil, revision } from "@/data/comun";
+import { contenido, conValores, type Idioma } from "@/data/contenido";
 import { Revelar } from "./Revelar";
 
 type Enlace = {
@@ -8,12 +9,14 @@ type Enlace = {
   externo?: boolean;
 };
 
-export function Contacto() {
+export function Contacto({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+
   const enlaces: Enlace[] = [
-    { etiqueta: "Email", valor: perfil.email, href: `mailto:${perfil.email}` },
+    { etiqueta: c.ui.email, valor: perfil.email, href: `mailto:${perfil.email}` },
     {
       etiqueta: "LinkedIn",
-      valor: "oliver-infante-perez",
+      valor: perfil.linkedin.replace("https://linkedin.com/in/", ""),
       href: perfil.linkedin,
       externo: true,
     },
@@ -28,7 +31,7 @@ export function Contacto() {
   // El número llega por variable de entorno, así que puede no estar definido.
   if (perfil.mostrarTelefono && perfil.telefono) {
     enlaces.push({
-      etiqueta: "Teléfono",
+      etiqueta: c.ui.telefono,
       valor: perfil.telefono,
       href: `tel:${perfil.telefono.replace(/[^\d+]/g, "")}`,
     });
@@ -48,19 +51,19 @@ export function Contacto() {
 
             <div>
               <h2 className="font-serif text-3xl font-semibold tracking-[-0.02em] text-tinta sm:text-[2.5rem]">
-                Contacto
+                {c.secciones.contacto.titulo}
               </h2>
               <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-tinta-media">
                 {perfil.disponible
-                  ? "Estoy abierto a oportunidades en QA, testing y automatización. Si tienes una vacante o un proyecto en mente, escríbeme."
-                  : "Si quieres conversar sobre QA, testing o automatización, escríbeme."}
+                  ? c.ui.contactoDisponible
+                  : c.ui.contactoNoDisponible}
               </p>
 
               <a
                 href={`mailto:${perfil.email}`}
                 className="mt-8 inline-block bg-tinta px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.12em] text-papel-alto transition-colors hover:bg-sello"
               >
-                Escribirme →
+                {c.ui.escribirme} →
               </a>
 
               <dl className="mt-12 grid border-t border-regla sm:grid-cols-2">
@@ -92,7 +95,9 @@ export function Contacto() {
   );
 }
 
-export function Footer() {
+export function Footer({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+
   return (
     <footer className="border-t border-tinta">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 py-6 font-mono text-[11px] uppercase tracking-[0.1em] text-tinta-clara sm:flex-row sm:items-center sm:justify-between lg:px-10">
@@ -100,7 +105,7 @@ export function Footer() {
           © {new Date().getFullYear()} {perfil.nombre}
         </p>
         <p className="nums-tabulares">
-          Santo Domingo, RD · Rev. 2026.08 · Fin del documento
+          {conValores(c.ui.finDelDocumento, { rev: revision })}
         </p>
       </div>
     </footer>

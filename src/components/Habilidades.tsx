@@ -1,17 +1,14 @@
-import { habilidades } from "@/data/perfil";
+import { contenido, type Idioma } from "@/data/contenido";
 import { Revelar } from "./Revelar";
 import { Seccion } from "./Seccion";
 
-export function Habilidades() {
+export function Habilidades({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+
   return (
-    <Seccion
-      id="habilidades"
-      seccion="2"
-      titulo="Competencias"
-      descripcion="Herramientas y prácticas que uso a diario, agrupadas por la función que cumplen."
-    >
+    <Seccion id="habilidades" seccion="2" {...c.secciones.habilidades}>
       <div className="border-t border-regla">
-        {habilidades.map((grupo, i) => (
+        {c.habilidades.map((grupo, i) => (
           <Revelar key={grupo.categoria} retraso={i * 60}>
             <div className="grid gap-x-10 gap-y-3 border-b border-regla-fina py-6 md:grid-cols-[13rem_1fr]">
               <div>

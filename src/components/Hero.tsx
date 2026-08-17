@@ -1,15 +1,18 @@
 import Link from "next/link";
-import { perfil } from "@/data/perfil";
+import { perfil, revision } from "@/data/comun";
+import { contenido, conValores, rutas, type Idioma } from "@/data/contenido";
 import { Revelar } from "./Revelar";
 
-const ficha = [
-  { campo: "Rol", valor: perfil.titulo },
-  { campo: "Ubicación", valor: perfil.ubicacion },
-  { campo: "Certificación", valor: "ISTQB Foundation · en curso" },
-  { campo: "Formación", valor: "Ing. de Software · INTEC" },
-];
+export function Hero({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
 
-export function Hero() {
+  const ficha = [
+    { campo: c.ui.fichaRol, valor: c.titulo },
+    { campo: c.ui.fichaUbicacion, valor: c.ubicacion },
+    { campo: c.ui.fichaCertificacion, valor: c.ui.fichaCertificacionValor },
+    { campo: c.ui.fichaFormacion, valor: c.ui.fichaFormacionValor },
+  ];
+
   return (
     <section
       id="inicio"
@@ -18,9 +21,9 @@ export function Hero() {
       {/* Encabezado de documento */}
       <Revelar>
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-tinta pb-3">
-          <span className="etiqueta-campo">Portafolio profesional</span>
+          <span className="etiqueta-campo">{c.ui.encabezadoDocumento}</span>
           <span className="etiqueta-campo nums-tabulares">
-            Rev. 2026.08 · Documento 1 de 1
+            {conValores(c.ui.revision, { rev: revision })}
           </span>
         </div>
       </Revelar>
@@ -37,13 +40,13 @@ export function Hero() {
 
           <Revelar retraso={90}>
             <p className="mt-6 max-w-xl font-serif text-xl leading-[1.5] text-tinta-media sm:text-[1.4rem]">
-              {perfil.titulo} — {perfil.subtitulo}.
+              {c.titulo} — {c.subtitulo}.
             </p>
           </Revelar>
 
           <Revelar retraso={160}>
             <p className="mt-8 max-w-lg text-pretty text-[15px] leading-[1.75] text-tinta-media">
-              {perfil.pitch}
+              {c.pitch}
             </p>
           </Revelar>
 
@@ -53,19 +56,19 @@ export function Hero() {
                 href="#contacto"
                 className="bg-tinta px-6 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-papel-alto transition-colors hover:bg-sello"
               >
-                Contactar
+                {c.ui.contactar}
               </a>
               <a
                 href="#proyectos"
                 className="border border-tinta px-6 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-tinta transition-colors hover:bg-tinta hover:text-papel-alto"
               >
-                Ver casos
+                {c.ui.verCasos}
               </a>
               <Link
-                href={perfil.cv}
+                href={rutas.cv(idioma)}
                 className="px-2 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-tinta-clara underline decoration-regla underline-offset-[5px] transition-colors hover:text-sello hover:decoration-sello"
               >
-                Ver CV
+                {c.ui.verCV}
               </Link>
             </div>
           </Revelar>
@@ -78,7 +81,7 @@ export function Hero() {
               <div className="mb-7 inline-flex -rotate-2 items-center gap-2 border-2 border-sello px-3 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-sello" />
                 <span className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-sello">
-                  Disponible
+                  {c.ui.disponible}
                 </span>
               </div>
             )}
@@ -95,7 +98,7 @@ export function Hero() {
             </dl>
 
             <p className="mt-5 font-mono text-[11px] leading-relaxed text-tinta-clara">
-              Documento verificado y mantenido por su autor.
+              {c.ui.documentoVerificado}
             </p>
           </div>
         </Revelar>

@@ -1,12 +1,14 @@
-import { experiencia } from "@/data/perfil";
+import { contenido, type Idioma } from "@/data/contenido";
 import { Revelar } from "./Revelar";
 import { Seccion } from "./Seccion";
 
-export function Experiencia() {
+export function Experiencia({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+
   return (
-    <Seccion id="experiencia" seccion="4" titulo="Trayectoria">
+    <Seccion id="experiencia" seccion="4" {...c.secciones.experiencia}>
       <ol className="border-t border-regla">
-        {experiencia.map((puesto, i) => (
+        {c.experiencia.map((puesto, i) => (
           <li key={`${puesto.empresa}-${puesto.puesto}`}>
             <Revelar retraso={i * 70}>
               <article className="grid gap-x-10 gap-y-4 border-b border-regla-fina py-8 md:grid-cols-[13rem_1fr]">
@@ -16,7 +18,7 @@ export function Experiencia() {
                   </p>
                   {puesto.actual && (
                     <span className="mt-2 inline-block border border-sello px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-sello">
-                      En curso
+                      {c.ui.enCurso}
                     </span>
                   )}
                 </div>

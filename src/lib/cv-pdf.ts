@@ -15,7 +15,7 @@
 import { existsSync } from "node:fs";
 import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
-import { archivoPdf, rutaCV, type IdiomaCV } from "@/data/cv";
+import { contenido, rutas, type Idioma } from "@/data/contenido";
 
 /**
  * En Vercel no hay navegador instalado: lo aporta @sparticuz/chromium, compilado para
@@ -72,7 +72,7 @@ async function configuracionNavegador() {
   };
 }
 
-async function generarPdf(idioma: IdiomaCV, origen: string) {
+async function generarPdf(idioma: Idioma, origen: string) {
   const navegador = await puppeteer.launch({
     ...(await configuracionNavegador()),
     headless: true,
@@ -80,7 +80,7 @@ async function generarPdf(idioma: IdiomaCV, origen: string) {
 
   try {
     const pagina = await navegador.newPage();
-    await pagina.goto(`${origen}${rutaCV[idioma]}`, {
+    await pagina.goto(`${origen}${rutas.cv(idioma)}`, {
       waitUntil: "networkidle0",
       timeout: 30_000,
     });
@@ -118,8 +118,8 @@ function origenPublico(peticion: Request) {
   return `${protocolo}://${anfitrion}`;
 }
 
-/** Respuesta compartida por las rutas `/cv/pdf` y `/cv/en/pdf`. */
-export async function respuestaPdfCV(peticion: Request, idioma: IdiomaCV) {
+/** Respuesta compartida por la ruta `/[idioma]/cv/pdf` de cada idioma. */
+export async function respuestaPdfCV(peticion: Request, idioma: Idioma) {
   let pdf;
   try {
     pdf = await generarPdf(idioma, origenPublico(peticion));
@@ -142,7 +142,7 @@ export async function respuestaPdfCV(peticion: Request, idioma: IdiomaCV) {
     headers: {
       "Content-Type": "application/pdf",
       // El nombre acaba en el disco de quien lo descarga: que se entienda sin abrirlo.
-      "Content-Disposition": `attachment; filename="${archivoPdf[idioma]}"`,
+      "Content-Disposition": `attachment; filename="${contenido[idioma].cv.archivoPdf}"`,
       /*
        * Arrancar un Chromium por descarga sería absurdo. La CDN guarda el resultado y lo
        * reparte; cada despliegue invalida la caché, así que un cambio de contenido se ve

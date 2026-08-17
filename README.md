@@ -1,9 +1,10 @@
 # Portafolio — Oliver Infante
 
 Portafolio personal de Oliver Infante, Ingeniero QA. Construido con Next.js 16 (App Router),
-React 19 y Tailwind CSS v4. No usa base de datos: todo el contenido vive en un archivo.
+React 19 y Tailwind CSS v4. Está íntegramente en español e inglés, y no usa base de
+datos: todo el contenido vive en dos archivos.
 
-Las páginas son estáticas, salvo las dos rutas que generan el PDF del CV, que necesitan
+Las páginas son estáticas, salvo la ruta que genera el PDF del CV, que necesita
 ejecutarse en el servidor.
 
 ## Cómo ejecutarlo
@@ -15,23 +16,54 @@ npm start       # sirve el build de producción
 npm run lint    # ESLint
 ```
 
+## El sitio está en dos idiomas
+
+Español e inglés, completos: el portafolio, el CV y hasta los rótulos de los botones.
+
+Quien llega a la raíz es enviado a uno u otro según el `Accept-Language` de su navegador.
+Si elige idioma a mano en el conmutador del menú, esa elección queda en una cookie y manda
+sobre la configuración del navegador en las visitas siguientes.
+
+| Ruta | Qué es |
+| --- | --- |
+| `/` | Redirige a `/es` o `/en` según el navegador |
+| `/es`, `/en` | Portafolio |
+| `/es/cv`, `/en/cv` | CV |
+| `/es/cv/pdf`, `/en/cv/pdf` | El CV en PDF, generado al vuelo |
+
+La lógica de detección está en `src/proxy.ts`.
+
 ## Cómo actualizar el contenido
 
-**Todo el contenido del sitio vive en un solo archivo: `src/data/perfil.ts`.**
+**Todo el texto vive en dos archivos gemelos: `src/data/es.ts` y `src/data/en.ts`.**
 No hace falta tocar los componentes para actualizar la información.
+
+Los dos implementan el tipo `Contenido` de `src/data/tipos.ts`, así que **si agregas un
+campo en uno y falta en el otro, el build falla**. Es la única defensa real contra una
+traducción a medias — pero el compilador no puede avisarte de que un texto se quedó
+desactualizado, así que al cambiar contenido en uno, reflétalo en el otro.
 
 | Qué quieres cambiar | Dónde |
 | --- | --- |
-| Nombre, título, pitch, contacto | `perfil` |
-| Insignia "Disponible" | `perfil.disponible` (`true` / `false`) |
-| Mostrar el teléfono en el sitio | `perfil.mostrarTelefono` + `NEXT_PUBLIC_TELEFONO` (ver abajo) |
-| Párrafos de "Perfil" | `perfil.sobreMi` |
-| El texto del bloque oscuro (pista ↔ software) | `perfil.paralelo` y `perfil.lema` |
+| Título, pitch, ubicación | raíz de `es.ts` / `en.ts` |
+| Párrafos de "Perfil" | `sobreMi` |
+| Títulos y bajadas de las secciones | `secciones` |
+| El bloque oscuro (pista ↔ software) | `paralelo` y `lema` |
+| Cifras de la portada | `metricas` |
+| El ciclo de trabajo | `flujoTrabajo` |
+| Las muestras de documentación | `casoDePrueba` y `reporteDefecto` |
 | Competencias por categoría | `habilidades` |
 | Puestos de trabajo | `experiencia` |
 | Casos / proyectos | `proyectos` |
 | Educación, certificaciones, idiomas | `educacion`, `certificaciones`, `idiomas` |
 | Sección "Fuera del código" | `intereses` |
+| Textos de botones, rótulos y etiquetas | `ui` |
+| Etiquetas propias del CV | `cv` |
+
+**Lo que no se traduce vive en `src/data/comun.ts`**: nombre, correo, LinkedIn, GitHub, la
+insignia de "Disponible" y los archivos de imagen con sus dimensiones. Están ahí para no
+tener que cambiarlos en dos sitios. El texto alternativo y el pie de cada figura sí se
+traducen, y viven en `figuras` dentro de cada idioma.
 
 ### El teléfono
 
@@ -51,34 +83,21 @@ contacto simplemente no incluye el teléfono.
 
 ### Pendientes por completar
 
-- `sitio` en `src/app/layout.tsx` — pon el dominio definitivo (afecta metadatos y Open Graph).
 - `proyectos` → La Infantería Motorsport — sin `enlace` porque el repositorio es privado.
   Si se publica, al agregar `enlace` aparece solo el botón "Ver proyecto".
 
-### El CV, en español e inglés
+### El CV
 
-Cuatro rutas: dos páginas y sus dos PDFs.
-
-| Ruta | Qué es | De dónde sale |
-| --- | --- | --- |
-| `/cv` | CV en español | Deriva de `src/data/perfil.ts` — nunca se desincroniza |
-| `/cv/en` | CV en inglés | Traducción a mano en `cvEn`, dentro de `src/data/cv.ts` |
-| `/cv/pdf` | PDF en español | Se genera al vuelo desde `/cv` |
-| `/cv/en/pdf` | PDF en inglés | Se genera al vuelo desde `/cv/en` |
-
-Las dos páginas renderizan el mismo componente (`src/components/DocumentoCV.tsx`), con un
-conmutador `ES / EN` y un botón de descarga que no se imprimen.
-
-> **Al editar contenido en `perfil.ts`, refleja el cambio en `cvEn`.** Es el único punto
-> del proyecto donde el contenido está duplicado, y lo está a propósito: es una
-> traducción, no un dato derivable.
+Las dos versiones renderizan el mismo componente (`src/components/DocumentoCV.tsx`) a
+partir del contenido de su idioma, así que no puede desincronizarse del portafolio: es la
+misma fuente. El botón de descarga no se imprime.
 
 ### Cómo se generan los PDFs
 
 `src/lib/cv-pdf.ts` abre la propia página del CV en un Chromium headless y devuelve el
 resultado. **No hay ningún PDF guardado en el repositorio**: se renderiza en cada
 descarga, así que no puede quedarse desactualizado respecto a los datos. Editas
-`perfil.ts`, despliegas, y el siguiente que lo descargue se lleva la versión nueva.
+`es.ts` o `en.ts`, despliegas, y el siguiente que lo descargue se lleva la versión nueva.
 
 - En Vercel el navegador lo aporta `@sparticuz/chromium`. En local se usa el Chrome,
   Brave, Edge o Chromium que ya esté instalado; si está en una ruta rara, `CHROME_BIN`.
@@ -93,19 +112,27 @@ descarga, así que no puede quedarse desactualizado respecto a los datos. Editas
 ```
 src/
 ├── app/
-│   ├── layout.tsx      # metadatos, fuentes, SEO
-│   ├── page.tsx        # orden de las secciones
+│   ├── [idioma]/       # el segmento de idioma envuelve todo el sitio
+│   │   ├── layout.tsx  # layout raíz: <html lang>, fuentes, metadatos, SEO
+│   │   ├── page.tsx    # orden de las secciones del portafolio
+│   │   ├── cv/page.tsx # el CV
+│   │   └── cv/pdf/     # ruta que devuelve el PDF
 │   ├── icon.tsx        # favicon generado
-│   ├── cv/page.tsx     # CV en español
-│   ├── cv/en/page.tsx  # CV en inglés
-│   ├── cv/pdf/         # rutas que devuelven el PDF de cada idioma
 │   └── globals.css     # tema (papel, tinta, tipografía, animaciones)
+├── proxy.ts            # detección de idioma y rutas heredadas
 ├── components/         # una sección por archivo
 ├── lib/cv-pdf.ts       # render del PDF con Chromium headless
 └── data/
-    ├── perfil.ts       # ← todo el contenido
-    └── cv.ts           # las dos versiones del CV (es deriva de perfil.ts; en es traducción)
+    ├── tipos.ts        # la forma del contenido; obliga a que los dos idiomas cuadren
+    ├── es.ts, en.ts    # ← todo el texto
+    ├── comun.ts        # lo que no se traduce
+    └── contenido.ts    # punto de entrada e idiomas
 ```
+
+> El layout raíz vive en `app/[idioma]/layout.tsx` y **no hay `app/layout.tsx`**. Cuando
+> todas las rutas cuelgan de un segmento dinámico, Next toma el layout de ese segmento
+> como raíz — que es la única forma de poner el idioma en el `<html>`, porque un layout
+> raíz no recibe parámetros.
 
 ## Notas de diseño
 
@@ -137,12 +164,13 @@ entera quedaría inválida y todo el sitio caería al tipo del sistema.
 
 [Vercel](https://vercel.com): importas el repositorio y no requiere configuración.
 
-**Hace falta un host con funciones serverless de Node.** Las rutas `/cv/pdf` y
-`/cv/en/pdf` arrancan un Chromium para renderizar el PDF, así que un host puramente
+**Hace falta un host con funciones serverless de Node.** La ruta `/[idioma]/cv/pdf`
+arranca un Chromium para renderizar el PDF, así que un host puramente
 estático —GitHub Pages, o Cloudflare Pages sin functions— serviría el resto del sitio
 pero devolvería 404 en el botón de descarga del CV. Netlify sirve si se despliega con su
 adaptador de Next.
 
 Si algún día se prefiere volver a un sitio 100 % estático, hay que borrar
-`src/app/cv/pdf/`, `src/app/cv/en/pdf/` y `src/lib/cv-pdf.ts`, y sustituir el botón de
-descarga de `DocumentoCV.tsx` por instrucciones de impresión.
+`src/app/[idioma]/cv/pdf/` y `src/lib/cv-pdf.ts`, y sustituir el botón de descarga de
+`DocumentoCV.tsx` por instrucciones de impresión. El proxy de idioma también necesita un
+host que lo ejecute.

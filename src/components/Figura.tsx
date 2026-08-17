@@ -1,14 +1,10 @@
 import Image from "next/image";
+import { imagenes, type ClaveImagen } from "@/data/comun";
+import type { Contenido, Figura as DatosFigura } from "@/data/tipos";
 
 type Props = {
-  src: string;
-  alt: string;
-  /** Número de figura, como en un informe técnico: Fig. 1, Fig. 2… */
-  numero: number;
-  pie: string;
-  credito?: string;
-  ancho: number;
-  alto: number;
+  figura: DatosFigura;
+  ui: Contenido["ui"];
   /** Sobre el bloque de fondo oscuro, el marco y el pie invierten su color. */
   oscuro?: boolean;
   prioridad?: boolean;
@@ -18,27 +14,28 @@ type Props = {
 /**
  * Las imágenes entran al documento como figuras numeradas con pie, igual que en
  * un informe técnico. Sin bordes redondeados ni sombras: son evidencia, no adorno.
+ *
+ * El archivo y sus dimensiones salen de `comun.ts` —son los mismos en los dos idiomas—
+ * y el texto alternativo y el pie vienen del contenido, que sí se traduce.
  */
 export function Figura({
-  src,
-  alt,
-  numero,
-  pie,
-  credito,
-  ancho,
-  alto,
+  figura,
+  ui,
   oscuro = false,
   prioridad = false,
   className = "",
 }: Props) {
+  const imagen = imagenes[figura.recurso as ClaveImagen];
+  const credito = "credito" in imagen ? imagen.credito : undefined;
+
   return (
     <figure className={className}>
       <div className={`border ${oscuro ? "border-papel/20" : "border-regla"}`}>
         <Image
-          src={src}
-          alt={alt}
-          width={ancho}
-          height={alto}
+          src={imagen.src}
+          alt={figura.alt}
+          width={imagen.ancho}
+          height={imagen.alto}
           priority={prioridad}
           sizes="(max-width: 768px) 100vw, 50vw"
           className="block h-auto w-full"
@@ -50,14 +47,14 @@ export function Figura({
         }`}
       >
         <span className={oscuro ? "text-sello-claro" : "text-sello"}>
-          Fig. {numero}
+          {ui.figura} {figura.numero}
         </span>
         <span className="flex-1">
-          {pie}
+          {figura.pie}
           {credito && (
             <span className={oscuro ? "text-papel/30" : "text-regla"}>
               {" "}
-              · Foto: {credito}
+              · {ui.foto}: {credito}
             </span>
           )}
         </span>

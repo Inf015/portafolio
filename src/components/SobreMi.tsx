@@ -1,15 +1,17 @@
-import { perfil } from "@/data/perfil";
+import { contenido, type Idioma } from "@/data/contenido";
 import { Figura } from "./Figura";
 import { Revelar } from "./Revelar";
 import { Seccion } from "./Seccion";
 
-export function SobreMi() {
+export function SobreMi({ idioma }: { idioma: Idioma }) {
+  const c = contenido[idioma];
+
   return (
-    <Seccion id="sobre-mi" seccion="1" titulo="Perfil">
+    <Seccion id="sobre-mi" seccion="1" {...c.secciones.perfil}>
       <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[1.7fr_1fr]">
         <Revelar>
           <div className="max-w-2xl space-y-5">
-            {perfil.sobreMi.map((parrafo, i) => (
+            {c.sobreMi.map((parrafo, i) => (
               <p
                 key={parrafo.slice(0, 32)}
                 className={
@@ -26,12 +28,8 @@ export function SobreMi() {
 
         <Revelar retraso={120}>
           <Figura
-            src="/fotos/retrato.jpg"
-            alt="Retrato de Oliver Infante, Ingeniero QA."
-            numero={1}
-            pie="Oliver Infante — Ingeniero QA, Santo Domingo."
-            ancho={933}
-            alto={1400}
+            figura={c.figuras.retrato}
+            ui={c.ui}
             className="lg:sticky lg:top-24"
           />
         </Revelar>
