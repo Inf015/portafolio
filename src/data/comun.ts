@@ -17,7 +17,7 @@ export const perfil = {
    * y en Vercel como variable de entorno, y pon `mostrarTelefono` en true.
    */
   telefono: process.env.NEXT_PUBLIC_TELEFONO ?? "",
-  mostrarTelefono: false,
+  mostrarTelefono: true,
 
   // Sin `www` ni barra final: el CV lo muestra tal cual, quitándole solo el esquema.
   linkedin: "https://linkedin.com/in/oliver-infante-perez",
