@@ -65,10 +65,8 @@ export function Nav({ idioma }: { idioma: Idioma }) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 border-b transition-colors duration-300 ${
-        desplazado || abierto
-          ? "border-regla bg-papel/92 backdrop-blur-sm"
-          : "border-transparent"
+      className={`fixed inset-x-0 top-0 z-40 border-b bg-papel/92 backdrop-blur-sm transition-colors duration-300 ${
+        desplazado || abierto ? "border-regla" : "border-transparent"
       }`}
     >
       <nav
