@@ -40,6 +40,8 @@ export type Proyecto = {
   estado?: string;
   enlace?: string;
   figuras?: Figura[];
+  /** Cifra de pruebas que respalda el caso. Los proyectos sin suite no la llevan. */
+  cifra?: { valor: string; nota: string };
 };
 
 export type Etapa = { paso: string; detalle: string };
@@ -110,7 +112,24 @@ export type Contenido = {
     texto: string;
     columnaPista: string;
     columnaSoftware: string;
-    ciclo: { paso: string; pista: string; software: string }[];
+    ciclo: {
+      paso: string;
+      pista: string;
+      pistaDetalle: string;
+      software: string;
+      softwareDetalle: string;
+    }[];
+  };
+
+  /** Rótulos de la traza de pruebas; las cifras viven en `comun.ts`. */
+  traza: {
+    etiqueta: string;
+    contexto: string;
+    aprobadas: string;
+    fallidas: string;
+    omitidas: string;
+    omitidasNota: string;
+    aria: string;
   };
 
   metricas: { valor: string; etiqueta: string; nota: string }[];
@@ -140,6 +159,8 @@ export type Contenido = {
   /** Todo lo que el sitio dice por su cuenta, fuera del contenido. */
   ui: {
     saltarAlContenido: string;
+    heroLinea: string;
+    verDetalle: string;
     navegacionPrincipal: string;
     abrirMenu: string;
     cerrarMenu: string;

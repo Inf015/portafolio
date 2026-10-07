@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
+import {
+  Chakra_Petch,
+  IBM_Plex_Mono,
+  IBM_Plex_Sans,
+  IBM_Plex_Serif,
+  Inter_Tight,
+} from "next/font/google";
 import { notFound } from "next/navigation";
 import { perfil, SITIO } from "@/data/comun";
 import { contenido, esIdioma, IDIOMAS, rutas } from "@/data/contenido";
@@ -31,6 +37,21 @@ const plexMono = IBM_Plex_Mono({
   variable: "--fuente-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
+});
+
+/*
+ * El sitio usa Chakra Petch para titulares y datos, e Inter Tight para el texto corrido.
+ * IBM Plex se queda porque el CV (la página y el PDF) sigue siendo un documento en papel.
+ */
+const chakra = Chakra_Petch({
+  variable: "--fuente-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const interTight = Inter_Tight({
+  variable: "--fuente-cuerpo",
+  subsets: ["latin"],
 });
 
 export function generateStaticParams() {
@@ -123,7 +144,7 @@ export default async function LayoutRaiz({
         />
       </head>
       <body
-        className={`${plexSerif.variable} ${plexSans.variable} ${plexMono.variable}`}
+        className={`${plexSerif.variable} ${plexSans.variable} ${plexMono.variable} ${chakra.variable} ${interTight.variable}`}
       >
         <a
           href="#contenido"

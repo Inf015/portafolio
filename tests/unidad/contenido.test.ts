@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { imagenes } from "@/data/comun";
+import { ejecucion, imagenes, totalAprobadas } from "@/data/comun";
 import { contenido, IDIOMAS, type Idioma } from "@/data/contenido";
 
 /**
@@ -34,8 +34,14 @@ describe.each(IDIOMAS)("contenido en %s", (idioma: Idioma) => {
   });
 
   it("no tiene marcadores de plantilla sin sustituir", () => {
-    // `{rev}` es legítimo en dos cadenas concretas; cualquier otro marcador es un olvido.
-    const permitidos = new Set(["ui.revision", "ui.finDelDocumento"]);
+    // Son legítimos en las cadenas que el componente rellena; cualquier otro marcador
+    // es un olvido.
+    const permitidos = new Set([
+      "ui.revision",
+      "ui.finDelDocumento",
+      "traza.contexto",
+      "traza.aria",
+    ]);
     const sospechosas = cadenas(c)
       .filter(([ruta, texto]) => /\{\w+\}/.test(texto) && !permitidos.has(ruta))
       .map(([ruta]) => ruta);
@@ -179,4 +185,46 @@ describe("la versión en inglés está realmente traducida", () => {
     expect(en.ui.comillas.abre).not.toBe("«");
     expect(en.ui.comillas.cierra).not.toBe("»");
   });
+});
+
+describe("las cifras de pruebas", () => {
+  const sumaDeProyectos = (idioma: Idioma) =>
+    contenido[idioma].proyectos.reduce(
+      (suma, p) => suma + Number(p.cifra?.valor.replace(/,/g, "") ?? 0),
+      0,
+    );
+
+  it("el total es la suma de las suites, no un número escrito a mano", () => {
+    const suma = ejecucion.suites.reduce((acc, s) => acc + s.pruebas, 0);
+    expect(totalAprobadas).toBe(suma);
+  });
+
+  it.each(IDIOMAS)(
+    "las cifras por caso suman el total de la ejecución (%s)",
+    (idioma: Idioma) => {
+      expect(sumaDeProyectos(idioma)).toBe(totalAprobadas);
+    },
+  );
+
+  it("ambos idiomas muestran la misma cifra en cada caso", () => {
+    const valores = (idioma: Idioma) =>
+      contenido[idioma].proyectos.map((p) => p.cifra?.valor ?? null);
+    expect(valores("en")).toEqual(valores("es"));
+  });
+
+  it("no hay suites repetidas ni con conteo no positivo", () => {
+    const nombres = ejecucion.suites.map((s) => s.nombre);
+    expect(new Set(nombres).size).toBe(nombres.length);
+    for (const suite of ejecucion.suites) {
+      expect(suite.pruebas, suite.nombre).toBeGreaterThan(0);
+    }
+  });
+
+  it.each(IDIOMAS)(
+    "la primera métrica del sitio es el total de la ejecución (%s)",
+    (idioma: Idioma) => {
+      const total = new Intl.NumberFormat("en-US").format(totalAprobadas);
+      expect(contenido[idioma].metricas[0].valor).toBe(total);
+    },
+  );
 });

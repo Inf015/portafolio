@@ -2,40 +2,38 @@ import { Revelar } from "./Revelar";
 
 type Props = {
   id: string;
-  /** Número de cláusula del documento: §1, §2, §3… */
-  seccion: string;
   titulo: string;
   descripcion?: string;
+  /** Algunas secciones llevan un fondo distinto para marcar el ritmo de la página. */
+  fondo?: "noche" | "panel";
   children: React.ReactNode;
 };
 
-export function Seccion({ id, seccion, titulo, descripcion, children }: Props) {
+/**
+ * Marco común de las secciones del sitio. El titular va en el tipo de datos del sitio
+ * (Chakra Petch) y sin numeración: las secciones no son una secuencia, así que contarlas
+ * sería decorar.
+ */
+export function Seccion({ id, titulo, descripcion, fondo = "noche", children }: Props) {
   return (
     <section
       id={id}
-      className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24 lg:px-10"
+      className={`border-t border-borde ${fondo === "panel" ? "bg-panel" : ""}`}
     >
-      <Revelar>
-        <div className="border-t border-tinta pt-4">
-          <div className="grid gap-x-12 gap-y-4 md:grid-cols-[8rem_1fr]">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-sello">
-              § {seccion}
-            </span>
-            <div>
-              <h2 className="font-serif text-3xl font-semibold tracking-[-0.02em] text-tinta sm:text-[2.5rem]">
-                {titulo}
-              </h2>
-              {descripcion && (
-                <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-tinta-media">
-                  {descripcion}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </Revelar>
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24 lg:px-10">
+        <Revelar>
+          <h2 className="max-w-[20ch] text-balance font-display text-[clamp(2rem,5.2vw,3.9rem)] font-bold leading-[1] tracking-[-0.03em] text-texto">
+            {titulo}
+          </h2>
+          {descripcion && (
+            <p className="mt-4 max-w-[56ch] text-pretty text-[17px] leading-relaxed text-tenue sm:text-lg">
+              {descripcion}
+            </p>
+          )}
+        </Revelar>
 
-      <div className="mt-10 md:mt-12 md:pl-[calc(8rem+3rem)]">{children}</div>
+        <div className="mt-10 sm:mt-12">{children}</div>
+      </div>
     </section>
   );
 }

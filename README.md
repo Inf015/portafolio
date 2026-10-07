@@ -169,22 +169,26 @@ src/
 
 ## Design notes
 
-The site is built as a **printed technical document**, not a landing page: raw paper,
-editorial typography, sections numbered like clauses (§1, §2…) and a data sheet in the
-header. The idea is that the form reflects the trade — a QA engineer works in documents:
-test cases, defect reports, traceability matrices.
+The site is a **night track**: deep blue-black, one blue for the telemetry trace, and the
+three colors of a drag-strip starting tree (amber, green, red) used as test status. Two
+worlds in one page — motorsport and software testing — held together by one method:
+measure, diagnose, adjust, repeat.
 
-- **Typography**: IBM Plex Serif (headings), Sans (body) and Mono (data and metadata). It's
-  a family designed for engineering documentation.
-- **Color**: paper `#f4f1ea` and ink `#16150f`, with a single accent — the racing red
-  `#c1121f`, which ties into the motorsport world.
-- **The dark block** halfway down the document is the argument of the site: the measurement
-  method of drag racing and of QA are the same one. It's what keeps this portfolio from
-  being interchangeable with any other.
+- **Typography**: Chakra Petch (headings and data) and Inter Tight (running text). IBM Plex
+  stays loaded for the CV, which is still a printed document.
+- **Color**: tokens in `globals.css` (`noche`, `panel`, `texto`, `traza`, `carril`, `verde`,
+  `ambar`, `rojo`). They are separate from the old paper tokens on purpose: **the CV page
+  and its PDF stay light** and keep using the old ones.
+- **The memorable piece** is the trace (`Traza.tsx`): cumulative tests suite by suite,
+  ending at a checkered flag. Its numbers come from a single source, `ejecucion` in
+  `data/comun.ts` — update it when the suites are re-run. A unit test fails if the
+  per-project figures in the content stop adding up to that total.
+- **Two lanes** (`Carriles.tsx`): the same four checkpoints run in code and on the track.
 - **Accessibility**: skip-to-content link, visible focus, semantic HTML and respect for
-  `prefers-reduced-motion`.
-- **The site is complete without JavaScript**: the entrance animations only hide content
-  when JS is available to reveal it.
+  `prefers-reduced-motion` (the start-tree animation and the trace drawing both stop).
+- **Mobile**: the trace swaps its in-chart labels for a list; lanes stack, each cell
+  labelled with its checkpoint.
+- **The CV and the 404** are the only pages outside `.sitio`.
 
 ### A trap worth remembering
 
@@ -206,3 +210,7 @@ button. Netlify works if deployed with its Next adapter.
 If a 100% static site is ever preferred again, delete `src/app/[idioma]/cv/pdf/` and
 `src/lib/cv-pdf.ts`, and replace the download button in `DocumentoCV.tsx` with printing
 instructions. The language proxy also needs a host that will run it.
+
+The same trap applies to plain CSS: a rule such as `font-family: var(--font-cuerpo)` is
+resolved at `:root` and silently fails. In `.sitio` the font is set from the raw
+`--fuente-cuerpo` variable, which the `<body>` declares and children inherit.

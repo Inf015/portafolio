@@ -7,17 +7,17 @@ export function SobreMi({ idioma }: { idioma: Idioma }) {
   const c = contenido[idioma];
 
   return (
-    <Seccion id="sobre-mi" seccion="1" {...c.secciones.perfil}>
-      <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[1.7fr_1fr]">
+    <Seccion id="sobre-mi" {...c.secciones.perfil}>
+      <div className="grid gap-x-14 gap-y-10 lg:grid-cols-[1.5fr_1fr]">
         <Revelar>
-          <div className="max-w-2xl space-y-5">
+          <div className="max-w-[62ch] space-y-5">
             {c.sobreMi.map((parrafo, i) => (
               <p
                 key={parrafo.slice(0, 32)}
                 className={
                   i === 0
-                    ? "font-serif text-xl leading-[1.6] text-tinta"
-                    : "text-pretty text-[15px] leading-[1.8] text-tinta-media"
+                    ? "text-pretty font-display text-[1.3rem] font-medium leading-[1.5] text-texto sm:text-[1.5rem]"
+                    : "text-pretty text-[17px] leading-[1.75] text-tenue"
                 }
               >
                 {parrafo}
@@ -30,7 +30,8 @@ export function SobreMi({ idioma }: { idioma: Idioma }) {
           <Figura
             figura={c.figuras.retrato}
             ui={c.ui}
-            className="lg:sticky lg:top-24"
+            sizes="(max-width: 1024px) 90vw, 400px"
+            className="mx-auto max-w-md lg:sticky lg:top-24 lg:max-w-none"
           />
         </Revelar>
       </div>

@@ -33,9 +33,9 @@ export const en: Contenido = {
   secciones: {
     perfil: { titulo: "Profile" },
     habilidades: {
-      titulo: "Skills",
+      titulo: "Build sheet",
       descripcion:
-        "Tools and practices I use daily, grouped by the job they do.",
+        "People who build cars publish a list of what each one runs. This is mine: what I use daily, grouped by the job it does.",
     },
     comoTrabajo: {
       titulo: "How I work",
@@ -58,30 +58,56 @@ export const en: Contenido = {
 
   paralelo: {
     etiqueta: "Method",
-    titulo: "Why the quarter mile and QA are the same thing",
+    titulo: "Two lanes, one method",
     texto:
       "In drag racing everything is decided in under eleven seconds, and every tenth comes from a number: reaction time, 60-foot, trap speed. You measure, you adjust the setup, you run again. You never guess. Testing software works exactly the same way — the difference is that on the track a defect costs you the race, and in production it costs you the user.",
     columnaPista: "On the track",
     columnaSoftware: "In software",
     ciclo: [
-      { paso: "Measure", pista: "Run telemetry", software: "Test case run" },
+      {
+        paso: "Measure",
+        pista: "Run telemetry",
+        pistaDetalle: "Reaction time, 60-foot, trap speed.",
+        software: "Test case run",
+        softwareDetalle: "I keep evidence of every step, so the report never depends on my memory.",
+      },
       {
         paso: "Diagnose",
         pista: "Where the tenth was lost",
+        pistaDetalle: "You measure, you don't guess.",
         software: "Root cause of the defect",
+        softwareDetalle: "Reproducible steps and, where I can, the probable cause.",
       },
       {
         paso: "Adjust",
         pista: "Setup and launch control",
+        pistaDetalle: "HP Tuners and bootmod3 on a 2018 Mustang and a BMW M4.",
         software: "Fix and regression",
+        softwareDetalle: "A fix can break what already worked, so I check around it.",
       },
-      { paso: "Repeat", pista: "Next pass", software: "Next release" },
+      {
+        paso: "Repeat",
+        pista: "Next pass",
+        pistaDetalle: "Data decides the next adjustment, not intuition.",
+        software: "Next release",
+        softwareDetalle: "What can be automated, I automate.",
+      },
     ],
+  },
+
+  traza: {
+    etiqueta: "Cumulative tests",
+    contexto: "six suites run on {fecha}",
+    aprobadas: "passed",
+    fallidas: "failed",
+    omitidas: "skipped",
+    omitidasNota: "only run on Linux",
+    aria: "Cumulative tests by suite: {detalle}.",
   },
 
   metricas: [
     {
-      valor: "1,700+",
+      valor: "1,719",
       etiqueta: "automated tests",
       nota: "Across six repositories, run and green: pytest and vitest",
     },
@@ -318,6 +344,7 @@ export const en: Contenido = {
         "Open Source",
       ],
       destacado: true,
+      cifra: { valor: "75", nota: "tests · open source" },
       enlace: "https://github.com/Inf015/botqa",
       figuras: [
         {
@@ -350,6 +377,7 @@ export const en: Contenido = {
         "Telemetry",
       ],
       destacado: true,
+      cifra: { valor: "100", nota: "tests · in development" },
       estado: "In development",
       enlace: "https://github.com/Inf015/Delta",
       figuras: [
@@ -394,6 +422,7 @@ export const en: Contenido = {
       ],
       tags: ["Python", "Telegram Bot API", "Docker", "pytest", "Automation"],
       destacado: false,
+      cifra: { valor: "1,013", nota: "tests · in production" },
       estado: "In production",
       enlace: "https://kepubli.com",
     },
@@ -420,6 +449,7 @@ export const en: Contenido = {
         "CSP",
       ],
       destacado: true,
+      cifra: { valor: "288", nota: "tests · RLS on 9 tables" },
     },
     {
       nombre: "Franky",
@@ -443,6 +473,7 @@ export const en: Contenido = {
         "Self-hosting",
       ],
       destacado: false,
+      cifra: { valor: "243", nota: "tests · in production" },
       estado: "In production",
     },
   ],
@@ -518,6 +549,8 @@ export const en: Contenido = {
   },
 
   ui: {
+    heroLinea: "measures what gets built.",
+    verDetalle: "Show details and evidence",
     saltarAlContenido: "Skip to content",
     navegacionPrincipal: "Main navigation",
     abrirMenu: "Open menu",

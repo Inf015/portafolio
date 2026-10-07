@@ -7,16 +7,16 @@ import { perfil } from "@/data/comun";
 import { contenido, IDIOMAS, rutas, type Idioma } from "@/data/contenido";
 import type { ClaveSeccion } from "@/data/tipos";
 
-/** Las anclas del documento. El rótulo de cada una sale del contenido traducido. */
-const ANCLAS: { id: string; clave: ClaveSeccion; seccion: string }[] = [
-  { id: "sobre-mi", clave: "perfil", seccion: "1" },
-  { id: "habilidades", clave: "habilidades", seccion: "2" },
-  { id: "como-trabajo", clave: "comoTrabajo", seccion: "3" },
-  { id: "experiencia", clave: "experiencia", seccion: "4" },
-  { id: "proyectos", clave: "proyectos", seccion: "5" },
-  { id: "formacion", clave: "formacion", seccion: "6" },
-  { id: "intereses", clave: "intereses", seccion: "7" },
-  { id: "contacto", clave: "contacto", seccion: "8" },
+/** Las anclas de la portada. El rótulo de cada una sale del contenido traducido. */
+const ANCLAS: { id: string; clave: ClaveSeccion }[] = [
+  { id: "sobre-mi", clave: "perfil" },
+  { id: "habilidades", clave: "habilidades" },
+  { id: "como-trabajo", clave: "comoTrabajo" },
+  { id: "experiencia", clave: "experiencia" },
+  { id: "proyectos", clave: "proyectos" },
+  { id: "formacion", clave: "formacion" },
+  { id: "intereses", clave: "intereses" },
+  { id: "contacto", clave: "contacto" },
 ];
 
 /**
@@ -27,7 +27,7 @@ function SelectorIdioma({ actual }: { actual: Idioma }) {
   const rutaActual = usePathname();
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0.5">
       {IDIOMAS.map((idioma) => {
         const activo = idioma === actual;
         const destino = rutaActual.replace(`/${actual}`, `/${idioma}`);
@@ -38,8 +38,8 @@ function SelectorIdioma({ actual }: { actual: Idioma }) {
             href={activo ? rutaActual : destino}
             hrefLang={idioma}
             aria-current={activo ? "true" : undefined}
-            className={`px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em] transition-colors ${
-              activo ? "text-sello" : "text-tinta-clara hover:text-tinta"
+            className={`px-2 py-1.5 font-display text-[13px] font-medium uppercase transition-colors ${
+              activo ? "text-traza" : "text-tenue hover:text-texto"
             }`}
           >
             <span aria-hidden="true">{idioma}</span>
@@ -65,51 +65,38 @@ export function Nav({ idioma }: { idioma: Idioma }) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 border-b bg-papel/92 backdrop-blur-sm transition-colors duration-300 ${
-        desplazado || abierto ? "border-regla" : "border-transparent"
+      className={`fixed inset-x-0 top-0 z-40 border-b bg-noche/90 backdrop-blur-md transition-colors duration-300 ${
+        desplazado || abierto ? "border-borde" : "border-transparent"
       }`}
     >
       <nav
         aria-label={c.ui.navegacionPrincipal}
-        className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-6 py-3.5 lg:px-10"
+        className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-6 py-3 lg:px-10"
       >
-        <a href="#inicio" className="group flex items-baseline gap-2.5">
-          <span className="font-serif text-[15px] font-semibold tracking-tight text-tinta">
-            {perfil.nombre}
-          </span>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.12em] text-tinta-clara sm:inline">
-            QA
-          </span>
+        <a href="#inicio" className="font-display text-[17px] font-bold tracking-tight text-texto">
+          {perfil.nombre}
         </a>
 
-        <ul className="hidden items-center gap-6 md:flex">
+        <ul className="hidden items-center gap-5 xl:flex">
           {ANCLAS.map((ancla) => (
             <li key={ancla.id}>
               <a
                 href={`#${ancla.id}`}
-                className="group flex items-baseline gap-1.5 text-[13px] text-tinta-media transition-colors hover:text-sello"
+                className="font-display text-[14px] font-medium text-tenue transition-colors hover:text-texto"
               >
-                <span className="font-mono text-[10px] text-tinta-clara transition-colors group-hover:text-sello">
-                  §{ancla.seccion}
-                </span>
                 {c.secciones[ancla.clave].titulo}
               </a>
             </li>
           ))}
-          <li>
-            <Link
-              href={rutas.cv(idioma)}
-              className="border border-tinta px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-tinta transition-colors hover:bg-tinta hover:text-papel-alto"
-            >
-              {c.ui.cv}
-            </Link>
-          </li>
-          <li>
-            <SelectorIdioma actual={idioma} />
-          </li>
         </ul>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-3">
+          <Link
+            href={rutas.cv(idioma)}
+            className="hidden border border-borde-2 px-3 py-1.5 font-display text-[13px] font-semibold text-texto transition-colors hover:border-texto hover:bg-texto hover:text-noche sm:block"
+          >
+            {c.ui.cv}
+          </Link>
           <SelectorIdioma actual={idioma} />
           <button
             type="button"
@@ -117,7 +104,7 @@ export function Nav({ idioma }: { idioma: Idioma }) {
             aria-expanded={abierto}
             aria-controls="menu-movil"
             aria-label={abierto ? c.ui.cerrarMenu : c.ui.abrirMenu}
-            className="flex h-8 w-8 items-center justify-center border border-regla text-tinta-media transition-colors hover:border-tinta hover:text-tinta"
+            className="flex h-9 w-9 items-center justify-center border border-borde-2 text-tenue transition-colors hover:border-texto hover:text-texto xl:hidden"
           >
             <svg
               width="16"
@@ -125,7 +112,7 @@ export function Nav({ idioma }: { idioma: Idioma }) {
               viewBox="0 0 16 16"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.3"
+              strokeWidth="1.4"
               aria-hidden="true"
             >
               {abierto ? (
@@ -145,18 +132,15 @@ export function Nav({ idioma }: { idioma: Idioma }) {
       </nav>
 
       {abierto && (
-        <div id="menu-movil" className="border-t border-regla-fina md:hidden">
-          <ul className="mx-auto w-full max-w-6xl divide-y divide-regla-fina px-6">
+        <div id="menu-movil" className="border-t border-borde bg-noche xl:hidden">
+          <ul className="mx-auto w-full max-w-6xl divide-y divide-borde px-6">
             {ANCLAS.map((ancla) => (
               <li key={ancla.id}>
                 <a
                   href={`#${ancla.id}`}
                   onClick={() => setAbierto(false)}
-                  className="flex items-baseline gap-2.5 py-3 text-sm text-tinta-media"
+                  className="block py-3.5 font-display text-[16px] font-medium text-tenue transition-colors hover:text-texto"
                 >
-                  <span className="font-mono text-[10px] text-tinta-clara">
-                    §{ancla.seccion}
-                  </span>
                   {c.secciones[ancla.clave].titulo}
                 </a>
               </li>
@@ -165,7 +149,7 @@ export function Nav({ idioma }: { idioma: Idioma }) {
               <Link
                 href={rutas.cv(idioma)}
                 onClick={() => setAbierto(false)}
-                className="block py-3 font-mono text-[11px] uppercase tracking-[0.1em] text-sello"
+                className="block py-3.5 font-display text-[16px] font-semibold text-traza"
               >
                 {c.ui.verCV}
               </Link>

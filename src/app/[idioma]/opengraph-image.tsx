@@ -9,7 +9,7 @@ import { contenido, esIdioma, IDIOMAS } from "@/data/contenido";
  * contenido: un archivo estático habría que rehacerlo a mano cada vez que cambie el
  * título, y el día que se olvide se comparte una tarjeta que ya no dice la verdad.
  *
- * Reproduce el documento impreso del sitio —papel crudo, filete superior, § y ficha de
+ * Reproduce el sitio de noche —fondo azul-negro, franja de librea arriba y ficha de
  * datos— para que quien la ve reconozca la página antes de abrirla.
  */
 
@@ -21,11 +21,12 @@ export function generateStaticParams() {
   return IDIOMAS.map((idioma) => ({ idioma }));
 }
 
-const PAPEL = "#f4f1ea";
-const TINTA = "#16150f";
-const TINTA_MEDIA = "#4a4739";
-const SELLO = "#c1121f";
-const REGLA = "#d6d0c2";
+const PAPEL = "#080c14";
+const TINTA = "#e9eef6";
+const TINTA_MEDIA = "#93a3bb";
+const SELLO = "#ff4d5a";
+const ACENTO = "#7fb4ff";
+const REGLA = "#2a3a55";
 
 export default async function ImagenOG({
   params,
@@ -53,8 +54,23 @@ export default async function ImagenOG({
           color: TINTA,
           padding: "56px 64px",
           fontFamily: "sans-serif",
+          position: "relative",
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 10,
+          }}
+        >
+          <div style={{ display: "flex", flex: 1, background: SELLO }} />
+          <div style={{ display: "flex", flex: 1, background: TINTA }} />
+          <div style={{ display: "flex", flex: 1, background: "#4e78b5" }} />
+        </div>
         {/* Cabecera del documento */}
         <div
           style={{
@@ -136,7 +152,7 @@ export default async function ImagenOG({
                     fontSize: 16,
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
-                    color: SELLO,
+                    color: ACENTO,
                   }}
                 >
                   {campo}

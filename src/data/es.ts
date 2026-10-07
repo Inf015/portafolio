@@ -30,9 +30,9 @@ export const es: Contenido = {
   secciones: {
     perfil: { titulo: "Perfil" },
     habilidades: {
-      titulo: "Competencias",
+      titulo: "Ficha de modificaciones",
       descripcion:
-        "Herramientas y prácticas que uso a diario, agrupadas por la función que cumplen.",
+        "Entre quienes preparan autos se publica la lista de lo que lleva cada uno. Esta es la mía: lo que uso a diario, agrupado por la función que cumple.",
     },
     comoTrabajo: {
       titulo: "Cómo trabajo",
@@ -55,7 +55,7 @@ export const es: Contenido = {
 
   paralelo: {
     etiqueta: "Método",
-    titulo: "Por qué el cuarto de milla y el QA son lo mismo",
+    titulo: "Dos carriles, un mismo método",
     texto:
       "En drag racing todo se decide en menos de once segundos, y cada décima sale de un dato: tiempo de reacción, 60 pies, velocidad de trampa. Se mide, se ajusta la configuración, se vuelve a correr. Nunca se adivina. Probar software funciona exactamente igual — la diferencia es que en la pista el defecto te cuesta la carrera, y en producción te cuesta el usuario.",
     columnaPista: "En la pista",
@@ -64,29 +64,47 @@ export const es: Contenido = {
       {
         paso: "Medir",
         pista: "Telemetría de la corrida",
+        pistaDetalle: "Tiempo de reacción, 60 pies, velocidad de trampa.",
         software: "Ejecución del caso de prueba",
+        softwareDetalle: "Dejo evidencia de cada paso para que el reporte no dependa de mi memoria.",
       },
       {
         paso: "Diagnosticar",
         pista: "Dónde se perdió la décima",
+        pistaDetalle: "Se mide, no se adivina.",
         software: "Causa raíz del defecto",
+        softwareDetalle: "Pasos reproducibles y, si puedo, la causa probable.",
       },
       {
         paso: "Ajustar",
         pista: "Configuración y lanzamiento",
+        pistaDetalle: "HP Tuners y bootmod3 sobre un Mustang 2018 y un BMW M4.",
         software: "Corrección y regresión",
+        softwareDetalle: "Un arreglo puede romper lo que ya funcionaba: verifico alrededor.",
       },
       {
         paso: "Repetir",
         pista: "Siguiente pasada",
+        pistaDetalle: "Los datos deciden el próximo ajuste, no la intuición.",
         software: "Siguiente entrega",
+        softwareDetalle: "Lo que puede automatizarse, lo automatizo.",
       },
     ],
   },
 
+  traza: {
+    etiqueta: "Pruebas acumuladas",
+    contexto: "seis suites ejecutadas el {fecha}",
+    aprobadas: "aprobadas",
+    fallidas: "fallidas",
+    omitidas: "omitidas",
+    omitidasNota: "solo corren en Linux",
+    aria: "Traza de pruebas acumuladas por suite: {detalle}.",
+  },
+
   metricas: [
     {
-      valor: "1700+",
+      valor: "1,719",
       etiqueta: "pruebas automatizadas",
       nota: "En seis repositorios, ejecutadas y en verde: pytest y vitest",
     },
@@ -322,6 +340,7 @@ export const es: Contenido = {
         "Open Source",
       ],
       destacado: true,
+      cifra: { valor: "75", nota: "pruebas · código abierto" },
       enlace: "https://github.com/Inf015/botqa",
       figuras: [
         {
@@ -354,6 +373,7 @@ export const es: Contenido = {
         "Telemetría",
       ],
       destacado: true,
+      cifra: { valor: "100", nota: "pruebas · en desarrollo" },
       estado: "En desarrollo",
       enlace: "https://github.com/Inf015/Delta",
       figuras: [
@@ -404,6 +424,7 @@ export const es: Contenido = {
         "Automatización",
       ],
       destacado: false,
+      cifra: { valor: "1,013", nota: "pruebas · en producción" },
       estado: "En producción",
       enlace: "https://kepubli.com",
     },
@@ -438,6 +459,7 @@ export const es: Contenido = {
         "CSP",
       ],
       destacado: true,
+      cifra: { valor: "288", nota: "pruebas · RLS en 9 tablas" },
     },
     /*
      * Franky es el servidor, pero lo que se cuenta como caso es lo que se puede probar:
@@ -466,6 +488,7 @@ export const es: Contenido = {
         "Self-hosting",
       ],
       destacado: false,
+      cifra: { valor: "243", nota: "pruebas · en producción" },
       estado: "En producción",
     },
   ],
@@ -541,6 +564,8 @@ export const es: Contenido = {
   },
 
   ui: {
+    heroLinea: "mide lo que construye.",
+    verDetalle: "Ver detalle y evidencia",
     saltarAlContenido: "Saltar al contenido",
     navegacionPrincipal: "Navegación principal",
     abrirMenu: "Abrir menú",
