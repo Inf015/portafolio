@@ -139,6 +139,12 @@ describe("una ruta inexistente", () => {
 });
 
 describe("cabeceras de seguridad", () => {
+  it("la CSP declara script-src: sin él, default-src bloquea los scripts en línea", async () => {
+    const csp = (await pedir("/es")).headers.get("content-security-policy") ?? "";
+    // Sin `script-src` explícito el sitio no hidrata (menú móvil, animaciones).
+    expect(csp).toMatch(/script-src [^;]*'unsafe-inline'/);
+  });
+
   it("el sitio manda una CSP que cierra las vías que no dependen de scripts", async () => {
     const csp = (await pedir("/es")).headers.get("content-security-policy") ?? "";
     for (const directiva of [
