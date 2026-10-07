@@ -9,6 +9,11 @@ type Enlace = {
   externo?: boolean;
 };
 
+/**
+ * El cierre en azul de carril: es lo único claro de la página, así que el contacto es lo
+ * último que se ve y lo que más contrasta. El texto va en el azul-noche del fondo, no en
+ * negro, para que siga siendo de la familia.
+ */
 export function Contacto({ idioma }: { idioma: Idioma }) {
   const c = contenido[idioma];
 
@@ -38,59 +43,48 @@ export function Contacto({ idioma }: { idioma: Idioma }) {
   }
 
   return (
-    <section
-      id="contacto"
-      className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24 lg:px-10"
-    >
-      <Revelar>
-        <div className="border-t border-tinta pt-4">
-          <div className="grid gap-x-12 gap-y-8 md:grid-cols-[8rem_1fr]">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-sello">
-              § 8
-            </span>
+    <section id="contacto" className="bg-carril-claro text-noche">
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24 lg:px-10">
+        <Revelar>
+          <h2 className="max-w-[10ch] text-balance font-display text-[clamp(3rem,9vw,7.5rem)] font-bold leading-[0.9] tracking-[-0.04em]">
+            {c.secciones.contacto.titulo}
+          </h2>
+          <p className="mt-6 max-w-[48ch] text-pretty text-lg leading-relaxed sm:text-xl">
+            {perfil.disponible ? c.ui.contactoDisponible : c.ui.contactoNoDisponible}
+          </p>
 
-            <div>
-              <h2 className="font-serif text-3xl font-semibold tracking-[-0.02em] text-tinta sm:text-[2.5rem]">
-                {c.secciones.contacto.titulo}
-              </h2>
-              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-tinta-media">
-                {perfil.disponible
-                  ? c.ui.contactoDisponible
-                  : c.ui.contactoNoDisponible}
-              </p>
+          <a
+            href={`mailto:${perfil.email}`}
+            className="mt-8 inline-block bg-noche px-7 py-3.5 font-display text-[16px] font-semibold text-texto transition-colors hover:bg-verde hover:text-noche"
+          >
+            {c.ui.escribirme}
+          </a>
 
-              <a
-                href={`mailto:${perfil.email}`}
-                className="mt-8 inline-block bg-tinta px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.12em] text-papel-alto transition-colors hover:bg-sello"
+          <dl className="mt-12 grid border-t border-noche/30 sm:grid-cols-2">
+            {enlaces.map((enlace) => (
+              <div
+                key={enlace.etiqueta}
+                className="border-b border-noche/30 py-4 sm:odd:pr-6 sm:even:border-l sm:even:border-noche/30 sm:even:pl-6"
               >
-                {c.ui.escribirme} →
-              </a>
-
-              <dl className="mt-12 grid border-t border-regla sm:grid-cols-2">
-                {enlaces.map((enlace) => (
-                  <div
-                    key={enlace.etiqueta}
-                    className="border-b border-regla-fina py-4 sm:odd:pr-6 sm:even:pl-6 sm:even:border-l"
+                <dt className="font-display text-[13.5px] font-semibold text-noche/75">
+                  {enlace.etiqueta}
+                </dt>
+                <dd className="mt-1">
+                  <a
+                    href={enlace.href}
+                    {...(enlace.externo
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="text-[17px] font-medium underline decoration-noche/40 underline-offset-4 transition-colors hover:decoration-noche"
                   >
-                    <dt className="etiqueta-campo">{enlace.etiqueta}</dt>
-                    <dd className="mt-1">
-                      <a
-                        href={enlace.href}
-                        {...(enlace.externo
-                          ? { target: "_blank", rel: "noopener noreferrer" }
-                          : {})}
-                        className="text-[15px] text-tinta underline decoration-regla underline-offset-4 transition-colors hover:text-sello hover:decoration-sello"
-                      >
-                        {enlace.valor}
-                      </a>
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </div>
-        </div>
-      </Revelar>
+                    {enlace.valor}
+                  </a>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Revelar>
+      </div>
     </section>
   );
 }
@@ -99,12 +93,12 @@ export function Footer({ idioma }: { idioma: Idioma }) {
   const c = contenido[idioma];
 
   return (
-    <footer className="border-t border-tinta">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 py-6 font-mono text-[11px] uppercase tracking-[0.1em] text-tinta-clara sm:flex-row sm:items-center sm:justify-between lg:px-10">
+    <footer className="border-t border-borde bg-noche">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 py-6 font-display text-[13px] text-tenue sm:flex-row sm:items-center sm:justify-between lg:px-10">
         <p>
           © {new Date().getFullYear()} {perfil.nombre}
         </p>
-        <p className="nums-tabulares">
+        <p className="tabular-nums">
           {conValores(c.ui.finDelDocumento, { rev: revision })}
         </p>
       </div>

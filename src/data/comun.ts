@@ -64,3 +64,32 @@ export const SITIO = "https://www.oliver-infante.dev";
 
 /** Revisión del documento, que se muestra en el encabezado y en el pie. */
 export const revision = "2026.10";
+
+/**
+ * Resultado de la última ejecución de las suites, medido de verdad (no contado en el
+ * código). Es la fuente única de las cifras de la traza y del titular: los textos
+ * traducidos no repiten estos números.
+ *
+ * Al volver a ejecutar las suites, actualizar aquí `fecha` y los conteos. Están
+ * ordenadas de mayor a menor, que es el orden en que se dibuja la traza acumulada.
+ */
+export const ejecucion = {
+  fecha: "2026-10-07",
+  suites: [
+    { nombre: "Kepubli", pruebas: 1013 },
+    { nombre: "La Infantería", pruebas: 288 },
+    { nombre: "Tara", pruebas: 205 },
+    { nombre: "Delta", pruebas: 100 },
+    { nombre: "botqa", pruebas: 75 },
+    { nombre: "Panel de control", pruebas: 38 },
+  ],
+  fallidas: 0,
+  /** Las cuatro del lanzador del panel, que usa /proc y solo corre en Linux. */
+  omitidas: 4,
+} as const;
+
+/** Total de pruebas aprobadas: la suma de las suites, nunca un número escrito a mano. */
+export const totalAprobadas = ejecucion.suites.reduce(
+  (suma, suite) => suma + suite.pruebas,
+  0,
+);

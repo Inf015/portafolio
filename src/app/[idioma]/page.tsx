@@ -7,9 +7,9 @@ import { Habilidades } from "@/components/Habilidades";
 import { Hero } from "@/components/Hero";
 import { Intereses } from "@/components/Intereses";
 import { Nav } from "@/components/Nav";
-import { Paralelo } from "@/components/Paralelo";
 import { Proyectos } from "@/components/Proyectos";
 import { SobreMi } from "@/components/SobreMi";
+import { Traza } from "@/components/Traza";
 import { esIdioma } from "@/data/contenido";
 
 export default async function Inicio({
@@ -21,13 +21,12 @@ export default async function Inicio({
   if (!esIdioma(idioma)) notFound();
 
   return (
-    <>
+    <div className="sitio">
       <Nav idioma={idioma} />
       <main id="contenido">
         <Hero idioma={idioma} />
+        <Traza idioma={idioma} />
         <SobreMi idioma={idioma} />
-        {/* Bloque invertido: corta el documento a la mitad y fija el argumento del sitio. */}
-        <Paralelo idioma={idioma} />
         <Habilidades idioma={idioma} />
         <ComoTrabajo idioma={idioma} />
         <Experiencia idioma={idioma} />
@@ -37,6 +36,7 @@ export default async function Inicio({
         <Contacto idioma={idioma} />
       </main>
       <Footer idioma={idioma} />
-    </>
+    </div>
   );
+
 }

@@ -2,74 +2,73 @@ import { contenido, type Idioma } from "@/data/contenido";
 import { Revelar } from "./Revelar";
 import { Seccion } from "./Seccion";
 
+function Bloque({
+  titulo,
+  retraso,
+  children,
+}: {
+  titulo: string;
+  retraso: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <Revelar retraso={retraso} className="h-full">
+      <div className="h-full border border-borde-2 bg-panel p-6">
+        <h3 className="font-display text-[13.5px] font-semibold text-traza">{titulo}</h3>
+        <div className="mt-4">{children}</div>
+      </div>
+    </Revelar>
+  );
+}
+
 export function Formacion({ idioma }: { idioma: Idioma }) {
   const c = contenido[idioma];
 
   return (
-    <Seccion id="formacion" seccion="6" {...c.secciones.formacion}>
-      <div className="border-t border-regla">
-        <Revelar>
-          <div className="grid gap-x-10 gap-y-2 border-b border-regla-fina py-6 md:grid-cols-[13rem_1fr]">
-            <p className="etiqueta-campo pt-1">{c.ui.educacion}</p>
-            <div>
-              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <h3 className="font-serif text-[19px] font-semibold text-tinta">
-                  {c.educacion.titulo}
-                </h3>
-                {c.educacion.distincion && (
-                  <span className="border border-sello px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-sello">
-                    {c.educacion.distincion}
-                  </span>
-                )}
-              </div>
-              <p className="mt-1.5 text-[14px] text-tinta-media">
-                {c.educacion.institucion}
-              </p>
-              <p className="mt-1 font-mono text-[12px] nums-tabulares text-tinta-clara">
-                {c.educacion.periodo}
-              </p>
-            </div>
-          </div>
-        </Revelar>
+    <Seccion id="formacion" {...c.secciones.formacion}>
+      <div className="grid gap-5 lg:grid-cols-3">
+        <Bloque titulo={c.ui.educacion} retraso={0}>
+          <h4 className="font-display text-[1.3rem] font-bold leading-tight tracking-[-0.01em] text-texto">
+            {c.educacion.titulo}
+          </h4>
+          {c.educacion.distincion && (
+            <span className="mt-2 inline-block border border-verde px-2.5 py-0.5 font-display text-[13px] font-semibold text-verde">
+              {c.educacion.distincion}
+            </span>
+          )}
+          <p className="mt-3 text-[16px] text-[#c3cee0]">{c.educacion.institucion}</p>
+          <p className="mt-1 font-display text-[14.5px] tabular-nums text-tenue">
+            {c.educacion.periodo}
+          </p>
+        </Bloque>
 
-        <Revelar retraso={70}>
-          <div className="grid gap-x-10 gap-y-2 border-b border-regla-fina py-6 md:grid-cols-[13rem_1fr]">
-            <p className="etiqueta-campo pt-1">{c.ui.certificaciones}</p>
-            <ul className="space-y-3">
-              {c.certificaciones.map((cert) => (
-                <li
-                  key={cert.nombre}
-                  className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
-                >
-                  <span className="font-serif text-[19px] font-semibold text-tinta">
-                    {cert.nombre}
-                  </span>
-                  <span className="border border-regla px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-tinta-clara">
-                    {cert.estado} · {cert.anio}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Revelar>
+        <Bloque titulo={c.ui.certificaciones} retraso={70}>
+          <ul className="space-y-4">
+            {c.certificaciones.map((cert) => (
+              <li key={cert.nombre}>
+                <p className="font-display text-[1.15rem] font-bold leading-tight text-texto">
+                  {cert.nombre}
+                </p>
+                <span className="mt-1.5 inline-block border border-ambar px-2.5 py-0.5 font-display text-[13px] font-semibold text-ambar">
+                  {cert.estado} · {cert.anio}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Bloque>
 
-        <Revelar retraso={140}>
-          <div className="grid gap-x-10 gap-y-2 border-b border-regla-fina py-6 md:grid-cols-[13rem_1fr]">
-            <p className="etiqueta-campo pt-1">{c.ui.idiomasEtiqueta}</p>
-            <ul className="space-y-2.5">
-              {c.idiomas.map((item) => (
-                <li key={item.idioma} className="flex flex-wrap gap-x-3">
-                  <span className="font-serif text-[17px] font-semibold text-tinta">
-                    {item.idioma}
-                  </span>
-                  <span className="text-[14px] leading-relaxed text-tinta-media">
-                    {item.nivel}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Revelar>
+        <Bloque titulo={c.ui.idiomasEtiqueta} retraso={140}>
+          <ul className="space-y-3.5">
+            {c.idiomas.map((item) => (
+              <li key={item.idioma}>
+                <p className="font-display text-[1.15rem] font-bold leading-tight text-texto">
+                  {item.idioma}
+                </p>
+                <p className="mt-0.5 text-[15px] leading-relaxed text-tenue">{item.nivel}</p>
+              </li>
+            ))}
+          </ul>
+        </Bloque>
       </div>
     </Seccion>
   );
