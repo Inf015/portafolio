@@ -460,7 +460,7 @@ export const es: Contenido = {
     {
       titulo: "Drag racing",
       detalle:
-        "Cuarto de milla con telemetría y configuraciones mecánicas avanzadas. Trabajo con HP Tuners y bootmod3 sobre un Ford Mustang 2018 y plataformas BMW M4 S58.",
+        "Cuarto de milla con telemetría y configuraciones mecánicas avanzadas. Trabajo con HP Tuners y bootmod3 sobre un Ford Mustang 2018 y un BMW M4 G82.",
       datos: ["HP Tuners", "bootmod3", "Telemetría", "Sistemas de lanzamiento"],
     },
     {
