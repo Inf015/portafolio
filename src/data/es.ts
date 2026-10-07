@@ -22,8 +22,8 @@ export const es: Contenido = {
     "Soy Ingeniero de Software egresado Magna Cum Laude del INTEC, y mi trabajo se mueve entre dos mundos que se complementan: el desarrollo y el aseguramiento de calidad.",
     "En Focused, un sistema multiplataforma de apoyo para pacientes con TDAH, psicólogos y psiquiatras, ocupé ambos roles: desarrollé la app móvil en Flutter y a la vez fui responsable del QA. Redacté y ejecuté los casos de prueba funcionales, armé las suites de regresión de los módulos de pacientes y de personal clínico, y di seguimiento a los defectos en Azure DevOps hasta su cierre.",
     "Esa doble perspectiva es lo que traigo a un equipo de calidad: sé leer un stack trace, entiendo por qué ocurre un defecto y no solo que ocurre, y escribo reportes que un desarrollador puede accionar sin ida y vuelta.",
-    "En La Infantería Motorsport llevo los sistemas y la plataforma web del equipo: un sitio en Next.js y Supabase con panel de administración, respaldado por 72 pruebas automatizadas. La suite que más me interesa es la de seguridad, porque no comprueba que las cosas funcionen, sino que no funcionen las que no deben: que la clave pública no pueda escribir en ninguna tabla ni subir archivos, y que los datos sigan intactos después del intento.",
-    "Fuera del trabajo formal, mi obsesión es hacer que la tecnología trabaje por mí. Construyo bots y agentes con modelos de lenguaje para automatizar tareas repetitivas, mantengo un homelab con nodos Linux donde autoalojo mis propios servicios, y armo mis PCs prestando la misma atención al detalle que le pongo a un plan de pruebas.",
+    "En La Infantería Motorsport llevo los sistemas y la plataforma web del equipo: un sitio en Next.js y Supabase con panel de administración, respaldado por 288 pruebas automatizadas. La suite que más me interesa es la de seguridad, porque no comprueba que las cosas funcionen, sino que no funcionen las que no deben: que la clave pública no pueda escribir en ninguna tabla ni subir archivos, y que los datos sigan intactos después del intento.",
+    "Fuera del trabajo formal, mi obsesión es hacer que la tecnología trabaje por mí. Construyo bots y agentes con modelos de lenguaje para automatizar tareas repetitivas, mantengo Franky, un servidor casero donde autoalojo mis propios servicios, y armo mis PCs prestando la misma atención al detalle que le pongo a un plan de pruebas.",
     "Ahora mismo desarrollo Delta, una plataforma de análisis de telemetría para sim racing. Es el proyecto donde mis dos mundos se cruzan por completo: software que mide, compara y explica dónde se pierde una décima.",
   ],
 
@@ -86,9 +86,9 @@ export const es: Contenido = {
 
   metricas: [
     {
-      valor: "172",
+      valor: "1700+",
       etiqueta: "pruebas automatizadas",
-      nota: "pytest en Delta y vitest en La Infantería",
+      nota: "En seis repositorios, ejecutadas y en verde: pytest y vitest",
     },
     {
       valor: "5",
@@ -284,7 +284,7 @@ export const es: Contenido = {
       actual: true,
       logros: [
         "Desarrollando y manteniendo la plataforma web del equipo en Next.js y Supabase: sitio público y panel de administración con acceso autenticado.",
-        "Respaldando el sitio con 72 pruebas automatizadas en vitest, repartidas en tres suites: unitarias, de humo contra el sitio levantado y de seguridad.",
+        "Respaldando el sitio con 288 pruebas automatizadas en vitest, repartidas en tres suites: unitarias, de humo contra el sitio levantado y de seguridad.",
         "Probando en negativo el modelo de permisos: que la clave pública no pueda escribir en ninguna tabla ni subir al Storage, y que los datos queden intactos tras el intento.",
         "Administrando los sistemas del taller y dirigiendo la identidad de marca, la presencia en línea y la documentación de resultados.",
         "Acompañando técnicamente la puesta a punto de los chasis Mustang del taller.",
@@ -393,7 +393,7 @@ export const es: Contenido = {
       detalles: [
         "Arquitectura multiusuario: cada persona mantiene su propia biblioteca y sus notificaciones.",
         "Pipeline de conversión y optimización de imágenes pensado para las limitaciones del papel electrónico.",
-        "Desplegado con Docker sobre infraestructura propia, con pruebas automatizadas en pytest.",
+        "Desplegado con Docker en Franky, mi servidor propio, y respaldado por 1013 pruebas automatizadas en pytest sobre el motor que descarga y convierte.",
         "Nació de un problema personal y terminó siendo un producto público con su propia landing.",
       ],
       tags: [
@@ -422,8 +422,9 @@ export const es: Contenido = {
       rol: "Desarrollo, QA y administración",
       detalles: [
         "Sitio público y panel de administración separados por rutas, con acceso autenticado y el panel excluido de los buscadores.",
-        "Ocho tablas en PostgreSQL con RLS activo en todas: la clave pública solo lee lo que está publicado.",
-        "72 pruebas automatizadas en vitest, repartidas en tres suites: unitarias, de humo contra el sitio levantado y de seguridad.",
+        "Nueve tablas en PostgreSQL con RLS activo en todas: la clave pública solo lee lo que está publicado.",
+        "288 pruebas automatizadas en vitest, repartidas en tres suites: 206 unitarias, 33 de humo contra el sitio levantado y 49 de seguridad.",
+        "Una auditoría ISTQB sobre el propio sitio dejó nueve defectos con corregidos y cerrados con su prueba de regresión.",
         "La suite de seguridad prueba en negativo: que la clave pública no escriba en ninguna tabla, que no pueda subir ni listar el Storage, y que los datos queden intactos después del intento.",
         "Content-Security-Policy con nonce, comprobada por prueba en lugar de confiar en que siga puesta.",
       ],
@@ -437,6 +438,35 @@ export const es: Contenido = {
         "CSP",
       ],
       destacado: true,
+    },
+    /*
+     * Franky es el servidor, pero lo que se cuenta como caso es lo que se puede probar:
+     * Tara y el panel de control, con 243 pruebas. La infraestructura en sí queda como
+     * contexto. Sin `enlace`: los repositorios son privados.
+     */
+    {
+      nombre: "Franky",
+      resumen:
+        "Mi servidor casero, que corre en producción los servicios que uso a diario: el bot de Kepubli, Home Assistant, un asistente personal con voz y un panel web para administrarlo todo. Lo trato como un sistema con usuarios reales, aunque el único usuario sea yo.",
+      rol: "Autor y administrador",
+      detalles: [
+        "Un Dell OptiPlex con Debian que ejecuta cinco contenedores Docker y los demás servicios bajo systemd. Está protegido con fail2ban y el panel de administración solo se alcanza por Tailscale.",
+        "Tara, un asistente personal sobre Hermes: recordatorios por hora y por lugar, alertas de correo, transcripción local de notas de voz y automatizaciones de la casa. Está respaldado por 205 pruebas en pytest.",
+        "Un panel web para administrar el servidor, diseñado con la seguridad como requisito: acciones tipadas en lugar de shell libre, confirmación en dos pasos con un token que caduca y auditoría de cada acción.",
+        "El panel acepta órdenes en lenguaje natural, pero el modelo solo propone una acción del catálogo; nunca ejecuta texto libre. Sus 38 pruebas cubren ese contrato.",
+        "Los secretos no viven en los repositorios: están en archivos con permisos restringidos fuera del control de versiones.",
+      ],
+      tags: [
+        "Python",
+        "Docker",
+        "systemd",
+        "Home Assistant",
+        "pytest",
+        "Seguridad",
+        "Self-hosting",
+      ],
+      destacado: false,
+      estado: "En producción",
     },
   ],
 
@@ -472,7 +502,7 @@ export const es: Contenido = {
     {
       titulo: "Hardware y homelab",
       detalle:
-        "Armado de PCs con enfriamiento líquido y chasis invertidos, y nodos Linux autoalojados corriendo mis propios servicios.",
+        "Armado de PCs con enfriamiento líquido y chasis invertidos, y Franky, mi servidor casero, corriendo mis propios servicios.",
       datos: ["Custom loop", "Linux", "Docker", "Self-hosting"],
     },
     {

@@ -25,8 +25,8 @@ export const en: Contenido = {
     "I'm a Software Engineer, Magna Cum Laude from INTEC, and my work moves between two worlds that complement each other: development and quality assurance.",
     "At Focused — a cross-platform support system for ADHD patients, psychologists and psychiatrists — I held both roles: I built the Flutter mobile app and was also responsible for QA. I wrote and ran the functional test cases, put together the regression suites for the patient and clinical staff modules, and tracked defects in Azure DevOps through to closure.",
     "That double perspective is what I bring to a quality team: I can read a stack trace, I understand why a defect happens and not just that it happens, and I write reports a developer can act on without a round trip.",
-    "At La Infantería Motorsport I run the team's systems and web platform: a Next.js and Supabase site with an admin panel, backed by 72 automated tests. The suite I care most about is the security one, because it doesn't check that things work — it checks that the things that shouldn't work don't: that the public key cannot write to any table or upload files, and that the data is left intact after the attempt.",
-    "Outside formal work, my obsession is making technology work for me. I build bots and agents with language models to automate repetitive tasks, I keep a homelab of Linux nodes self-hosting my own services, and I build my PCs with the same attention to detail I put into a test plan.",
+    "At La Infantería Motorsport I run the team's systems and web platform: a Next.js and Supabase site with an admin panel, backed by 288 automated tests. The suite I care most about is the security one, because it doesn't check that things work — it checks that the things that shouldn't work don't: that the public key cannot write to any table or upload files, and that the data is left intact after the attempt.",
+    "Outside formal work, my obsession is making technology work for me. I build bots and agents with language models to automate repetitive tasks, I run Franky, a home server self-hosting my own services, and I build my PCs with the same attention to detail I put into a test plan.",
     "Right now I'm building Delta, a telemetry analysis platform for sim racing. It's the project where my two worlds meet completely: software that measures, compares and explains where a tenth of a second goes.",
   ],
 
@@ -81,9 +81,9 @@ export const en: Contenido = {
 
   metricas: [
     {
-      valor: "172",
+      valor: "1,700+",
       etiqueta: "automated tests",
-      nota: "pytest on Delta and vitest on La Infantería",
+      nota: "Across six repositories, run and green: pytest and vitest",
     },
     {
       valor: "5",
@@ -280,7 +280,7 @@ export const en: Contenido = {
       actual: true,
       logros: [
         "Building and maintaining the team's web platform on Next.js and Supabase: public site plus an authenticated admin panel.",
-        "Backing the site with 72 automated vitest tests across three suites: unit, smoke against a running instance, and security.",
+        "Backing the site with 288 automated vitest tests across three suites: unit, smoke against a running instance, and security.",
         "Testing the permission model negatively: that the public key cannot write to any table or upload to Storage, and that the data is left intact after the attempt.",
         "Administering the shop's systems and directing brand identity, online presence and results documentation.",
         "Providing technical support for the setup of the shop's Mustang chassis.",
@@ -389,7 +389,7 @@ export const en: Contenido = {
       detalles: [
         "Multi-user architecture: each person keeps their own library and their own notifications.",
         "Conversion and image-optimization pipeline designed around the limits of electronic paper.",
-        "Deployed with Docker on my own infrastructure, with automated pytest tests.",
+        "Deployed with Docker on Franky, my own server, and backed by 1013 automated pytest tests over the engine that downloads and converts.",
         "It started from a personal problem and ended up a public product with its own landing page.",
       ],
       tags: ["Python", "Telegram Bot API", "Docker", "pytest", "Automation"],
@@ -404,8 +404,9 @@ export const en: Contenido = {
       rol: "Development, QA and administration",
       detalles: [
         "Public site and admin panel separated by route, with authenticated access and the panel excluded from search engines.",
-        "Eight PostgreSQL tables with RLS enabled on all of them: the public key only reads what is published.",
-        "72 automated vitest tests across three suites: unit, smoke against a running instance, and security.",
+        "Nine PostgreSQL tables with RLS enabled on all of them: the public key only reads what is published.",
+        "288 automated vitest tests across three suites: 206 unit, 33 smoke against a running instance, and 49 security.",
+        "An ISTQB audit of the site itself produced nine defects, fixed and closed with their regression tests.",
         "The security suite tests negatively: that the public key cannot write to any table, cannot upload to or list Storage, and that the data is left intact after the attempt.",
         "Content-Security-Policy with a nonce, asserted by a test instead of trusting it stays in place.",
       ],
@@ -419,6 +420,30 @@ export const en: Contenido = {
         "CSP",
       ],
       destacado: true,
+    },
+    {
+      nombre: "Franky",
+      resumen:
+        "My home server, running in production the services I use every day: the Kepubli bot, Home Assistant, a personal voice assistant and a web panel to administer it all. I treat it as a system with real users, even if the only user is me.",
+      rol: "Author and administrator",
+      detalles: [
+        "A Dell OptiPlex running Debian, with five Docker containers and the remaining services under systemd. It is protected with fail2ban, and the admin panel is only reachable over Tailscale.",
+        "Tara, a personal assistant on Hermes: reminders by time and by place, email alerts, local transcription of voice notes and home automations. It is backed by 205 pytest tests.",
+        "A web panel to administer the server, designed with security as a requirement: typed actions instead of a free shell, two-step confirmation with an expiring token, and an audit log of every action.",
+        "The panel accepts natural-language commands, but the model only proposes an action from the catalog; it never runs free text. Its 38 tests cover that contract.",
+        "Secrets don't live in the repositories: they sit in restricted-permission files outside version control.",
+      ],
+      tags: [
+        "Python",
+        "Docker",
+        "systemd",
+        "Home Assistant",
+        "pytest",
+        "Security",
+        "Self-hosting",
+      ],
+      destacado: false,
+      estado: "In production",
     },
   ],
 
@@ -454,7 +479,7 @@ export const en: Contenido = {
     {
       titulo: "Hardware and homelab",
       detalle:
-        "Building PCs with liquid cooling and inverted cases, and self-hosted Linux nodes running my own services.",
+        "Building PCs with liquid cooling and inverted cases, and Franky, my home server, running my own services.",
       datos: ["Custom loop", "Linux", "Docker", "Self-hosting"],
     },
     {
