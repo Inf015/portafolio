@@ -38,21 +38,32 @@ const nextConfig: NextConfig = {
 };
 
 /*
- * Sobre la Content-Security-Policy: no lleva `script-src`, y es deliberado.
+ * Sobre la Content-Security-Policy y los scripts.
  *
  * Las páginas se prerenderizan en el build, y tanto Next como el script que marca el
  * documento como «con JavaScript» van en línea. Restringir `script-src` de verdad exige
  * un nonce por petición, y un nonce obliga a renderizar cada visita en el servidor —se
  * perdería el prerenderizado de un sitio que es, en esencia, un documento estático—.
- * La alternativa habitual, `script-src 'self' 'unsafe-inline'`, no protege de nada y
- * además aparenta protección, que es peor.
+ * Por eso los scripts en línea se permiten, y `'unsafe-inline'` no protege de un XSS: lo
+ * decimos a las claras en vez de aparentar una protección que no hay.
  *
- * Lo que sí se cierra son las vías que no dependen de eso: incrustar el sitio en un
- * iframe ajeno, cargar plugins, reescribir la base de las URLs relativas, enviar
+ * Pero hay que declararlo. Una versión anterior omitía `script-src` creyendo que así los
+ * scripts quedaban libres; no es así: sin él, el navegador aplica `default-src 'self'` y
+ * BLOQUEA todo script en línea. La página se veía —el contenido llega en el HTML—, pero
+ * React no hidrataba, el menú móvil no abría y las animaciones de entrada sólo se
+ * mostraban por la red de seguridad de 2,5 s. La prueba de humo lo vigila.
+ *
+ * `'unsafe-eval'` sólo en desarrollo: el recargado en caliente de Next lo necesita.
+ *
+ * Lo que sí se cierra son las vías que no dependen de los scripts: incrustar el sitio en
+ * un iframe ajeno, cargar plugins, reescribir la base de las URLs relativas, enviar
  * formularios a otro origen y abrir conexiones a servidores de terceros.
  */
+const enDesarrollo = process.env.NODE_ENV !== "production";
+
 const CSP = [
   "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${enDesarrollo ? " 'unsafe-eval'" : ""}`,
   "img-src 'self' data: blob:",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
