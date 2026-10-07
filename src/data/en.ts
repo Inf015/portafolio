@@ -476,6 +476,30 @@ export const en: Contenido = {
       cifra: { valor: "243", nota: "tests · in production" },
       estado: "In production",
     },
+    {
+      nombre: "Franky",
+      resumen:
+        "My home server, running in production the services I use every day: the Kepubli bot, Home Assistant, a personal voice assistant and a web panel to administer it all. I treat it as a system with real users, even if the only user is me.",
+      rol: "Author and administrator",
+      detalles: [
+        "A Dell OptiPlex running Debian, with five Docker containers and the remaining services under systemd. It is protected with fail2ban, and the admin panel is only reachable over Tailscale.",
+        "Tara, a personal assistant on Hermes: reminders by time and by place, email alerts, local transcription of voice notes and home automations. It is backed by 205 pytest tests.",
+        "A web panel to administer the server, designed with security as a requirement: typed actions instead of a free shell, two-step confirmation with an expiring token, and an audit log of every action.",
+        "The panel accepts natural-language commands, but the model only proposes an action from the catalog; it never runs free text. Its 38 tests cover that contract.",
+        "Secrets don't live in the repositories: they sit in restricted-permission files outside version control.",
+      ],
+      tags: [
+        "Python",
+        "Docker",
+        "systemd",
+        "Home Assistant",
+        "pytest",
+        "Security",
+        "Self-hosting",
+      ],
+      destacado: false,
+      estado: "In production",
+    },
   ],
 
   educacion: {
