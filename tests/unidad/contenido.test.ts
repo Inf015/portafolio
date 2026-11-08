@@ -164,6 +164,7 @@ describe("la versión en inglés está realmente traducida", () => {
     "Instituto Tecnológico de Santo Domingo",
     "Santo Domingo",
     "Pizzería La Piedra",
+    "Tinta de Luna",
   ];
 
   const RUTAS_EXENTAS = [/^lang$/, /^nombreIdioma$/, /^ui\.comillas\./];
