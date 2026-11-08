@@ -445,7 +445,7 @@ export const es: Contenido = {
         "Sitio público y panel de administración separados por rutas, con acceso autenticado y el panel excluido de los buscadores.",
         "Nueve tablas en PostgreSQL con RLS activo en todas: la clave pública solo lee lo que está publicado.",
         "288 pruebas automatizadas en vitest, repartidas en tres suites: 206 unitarias, 33 de humo contra el sitio levantado y 49 de seguridad.",
-        "Una auditoría ISTQB sobre el propio sitio dejó nueve defectos con corregidos y cerrados con su prueba de regresión.",
+        "Una auditoría ISTQB sobre el propio sitio dejó nueve defectos, corregidos y cerrados con su prueba de regresión.",
         "La suite de seguridad prueba en negativo: que la clave pública no escriba en ninguna tabla, que no pueda subir ni listar el Storage, y que los datos queden intactos después del intento.",
         "Content-Security-Policy con nonce, comprobada por prueba en lugar de confiar en que siga puesta.",
       ],
@@ -489,35 +489,6 @@ export const es: Contenido = {
       ],
       destacado: false,
       cifra: { valor: "243", nota: "pruebas · en producción" },
-      estado: "En producción",
-    },
-    /*
-     * Franky es el servidor, pero lo que se cuenta como caso es lo que se puede probar:
-     * Tara y el panel de control, con 243 pruebas. La infraestructura en sí queda como
-     * contexto. Sin `enlace`: los repositorios son privados.
-     */
-    {
-      nombre: "Franky",
-      resumen:
-        "Mi servidor casero, que corre en producción los servicios que uso a diario: el bot de Kepubli, Home Assistant, un asistente personal con voz y un panel web para administrarlo todo. Lo trato como un sistema con usuarios reales, aunque el único usuario sea yo.",
-      rol: "Autor y administrador",
-      detalles: [
-        "Un Dell OptiPlex con Debian que ejecuta cinco contenedores Docker y los demás servicios bajo systemd. Está protegido con fail2ban y el panel de administración solo se alcanza por Tailscale.",
-        "Tara, un asistente personal sobre Hermes: recordatorios por hora y por lugar, alertas de correo, transcripción local de notas de voz y automatizaciones de la casa. Está respaldado por 205 pruebas en pytest.",
-        "Un panel web para administrar el servidor, diseñado con la seguridad como requisito: acciones tipadas en lugar de shell libre, confirmación en dos pasos con un token que caduca y auditoría de cada acción.",
-        "El panel acepta órdenes en lenguaje natural, pero el modelo solo propone una acción del catálogo; nunca ejecuta texto libre. Sus 38 pruebas cubren ese contrato.",
-        "Los secretos no viven en los repositorios: están en archivos con permisos restringidos fuera del control de versiones.",
-      ],
-      tags: [
-        "Python",
-        "Docker",
-        "systemd",
-        "Home Assistant",
-        "pytest",
-        "Seguridad",
-        "Self-hosting",
-      ],
-      destacado: false,
       estado: "En producción",
     },
   ],

@@ -63,7 +63,7 @@ export type ClaveImagen = keyof typeof imagenes;
 export const SITIO = "https://www.oliver-infante.dev";
 
 /** Revisión del documento, que se muestra en el encabezado y en el pie. */
-export const revision = "2026.10";
+export const revision = "2026.11";
 
 /**
  * Resultado de la última ejecución de las suites, medido de verdad (no contado en el

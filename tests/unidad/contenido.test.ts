@@ -61,6 +61,11 @@ describe.each(IDIOMAS)("contenido en %s", (idioma: Idioma) => {
     }
   });
 
+  it("no repite proyectos", () => {
+    const nombres = c.proyectos.map((p) => p.nombre);
+    expect(nombres).toEqual([...new Set(nombres)]);
+  });
+
   it("no repite números de figura", () => {
     const numeros = [
       ...Object.values(c.figuras),
