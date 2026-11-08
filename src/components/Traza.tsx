@@ -16,14 +16,14 @@ const X_FIN = 960;
  * termina en una meta a cuadros. Es el equivalente, en este sitio, a la telemetría de una
  * pasada: no se cuenta lo que se hizo, se muestra el resultado de la corrida.
  *
- * Todo sale de `ejecucion` (comun.ts); el eje se redondea al múltiplo de 500 siguiente.
+ * Todo sale de `ejecucion` (comun.ts); el eje se redondea al múltiplo de 1000 siguiente.
  */
 export function Traza({ idioma }: { idioma: Idioma }) {
   const c = contenido[idioma];
   const t = c.traza;
   const locale = idioma === "es" ? "es-DO" : "en-US";
 
-  const techo = Math.ceil(totalAprobadas / 500) * 500;
+  const techo = Math.ceil(totalAprobadas / 1000) * 1000;
   const y = (valor: number) => BASE - (valor / techo) * ALTO_UTIL;
 
   const n = ejecucion.suites.length;
@@ -41,12 +41,15 @@ export function Traza({ idioma }: { idioma: Idioma }) {
 
   const trazado = puntos.map((p) => `L${p.x},${p.y.toFixed(1)}`).join(" ");
   const ejes = [];
-  for (let g = 0; g <= techo; g += 500) ejes.push(g);
+  for (let g = 0; g <= techo; g += 1000) ejes.push(g);
 
   const fecha = new Intl.DateTimeFormat(locale, {
     dateStyle: "long",
     timeZone: "UTC",
-  }).format(new Date(`${ejecucion.fecha}T00:00:00Z`));
+  }).formatRange(
+    new Date(`${ejecucion.desde}T00:00:00Z`),
+    new Date(`${ejecucion.fecha}T00:00:00Z`),
+  );
 
   const aria = conValores(t.aria, {
     detalle: puntos

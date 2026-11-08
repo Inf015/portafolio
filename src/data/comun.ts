@@ -74,18 +74,26 @@ export const revision = "2026.11";
  * ordenadas de mayor a menor, que es el orden en que se dibuja la traza acumulada.
  */
 export const ejecucion = {
-  fecha: "2026-10-07",
+  /**
+   * Las suites no se miden todas el mismo día: Franky, Colorado y Tinta de Luna se
+   * ejecutaron en `fecha`; las demás conservan su medición de `desde`. Por eso el sitio
+   * muestra el intervalo y no una sola fecha.
+   */
+  desde: "2026-10-07",
+  fecha: "2026-11-08",
   suites: [
+    { nombre: "Franky", pruebas: 3373 },
     { nombre: "Kepubli", pruebas: 1013 },
     { nombre: "La Infantería", pruebas: 288 },
-    { nombre: "Tara", pruebas: 205 },
+    { nombre: "Colorado", pruebas: 159 },
     { nombre: "Delta", pruebas: 100 },
     { nombre: "botqa", pruebas: 75 },
-    { nombre: "Panel de control", pruebas: 38 },
+    { nombre: "Panel", pruebas: 38 },
+    { nombre: "Tinta de Luna", pruebas: 22 },
   ],
   fallidas: 0,
-  /** Las cuatro del lanzador del panel, que usa /proc y solo corre en Linux. */
-  omitidas: 4,
+  /** Cuatro del lanzador del panel, que usa /proc y solo corre en Linux, y una de Franky. */
+  omitidas: 5,
 } as const;
 
 /** Total de pruebas aprobadas: la suma de las suites, nunca un número escrito a mano. */

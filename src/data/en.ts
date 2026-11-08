@@ -97,19 +97,19 @@ export const en: Contenido = {
 
   traza: {
     etiqueta: "Cumulative tests",
-    contexto: "six suites run on {fecha}",
+    contexto: "eight suites measured: {fecha}",
     aprobadas: "passed",
     fallidas: "failed",
     omitidas: "skipped",
-    omitidasNota: "only run on Linux",
+    omitidasNota: "four only run on Linux",
     aria: "Cumulative tests by suite: {detalle}.",
   },
 
   metricas: [
     {
-      valor: "1,719",
+      valor: "5,068",
       etiqueta: "automated tests",
-      nota: "Across six repositories, run and green: pytest and vitest",
+      nota: "Across eight repositories, run and green: pytest, vitest, JUnit and node:test",
     },
     {
       valor: "5",
@@ -458,7 +458,8 @@ export const en: Contenido = {
       rol: "Author and administrator",
       detalles: [
         "A Dell OptiPlex running Debian, with five Docker containers and the remaining services under systemd. It is protected with fail2ban, and the admin panel is only reachable over Tailscale.",
-        "Tara, a personal assistant on Hermes: reminders by time and by place, email alerts, local transcription of voice notes and home automations. It is backed by 205 pytest tests.",
+        "Tara, a personal assistant on Hermes: reminders by time and by place, email alerts, local transcription of voice notes and home automations. It is backed by 3,373 pytest tests that run offline, with the database and state in real files.",
+        "A custom iPhone and Apple Watch app that talks to the assistant, and SMART health monitoring for the server's disks.",
         "A web panel to administer the server, designed with security as a requirement: typed actions instead of a free shell, two-step confirmation with an expiring token, and an audit log of every action.",
         "The panel accepts natural-language commands, but the model only proposes an action from the catalog; it never runs free text. Its 38 tests cover that contract.",
         "Secrets don't live in the repositories: they sit in restricted-permission files outside version control.",
@@ -473,8 +474,41 @@ export const en: Contenido = {
         "Self-hosting",
       ],
       destacado: false,
-      cifra: { valor: "243", nota: "tests · in production" },
+      cifra: { valor: "3,411", nota: "tests · in production" },
       estado: "In production",
+    },
+    {
+      nombre: "Colorado Launcher",
+      resumen:
+        "A custom interface for an Android car radio, installed in my truck: FM radio, USB music, Bluetooth phone and steering-wheel controls. Faults are diagnosed from the unit's own logs, because there is no other way to see what happens inside.",
+      rol: "Author",
+      detalles: [
+        "Bluetooth music kept pausing itself. I reproduced the fault live, followed the system logs to the cause (audio focus stuck at zero) and added a rule that detects and fixes it unattended.",
+        "Java on Android 8.1, without Gradle: a script builds and signs with aapt2, javac, d8 and apksigner.",
+        "It refuses to install on a screen of a different size, and a single script rolls the installation back.",
+        "159 JUnit tests over the application logic, running on the JVM without needing the radio.",
+      ],
+      tags: ["Java", "Android", "JUnit", "logcat", "Bluetooth"],
+      destacado: true,
+      cifra: { valor: "159", nota: "tests · installed and in use" },
+      estado: "In use",
+    },
+    {
+      nombre: "Tinta de Luna",
+      resumen:
+        "A prototype for a fictional bookshop: a 3D lobby that opens into three navigable site directions. It is a demonstration project, and I test it as if it had customers.",
+      rol: "Design, development and QA",
+      detalles: [
+        "HTML, CSS and JavaScript with no build step, with WebGL scenes on three.js.",
+        "22 node:test tests over the catalog, the oracle and the basket.",
+        "Smoke tests on desktop, mobile and with reduced motion, so 3D is never the only way to use the site.",
+        "No horizontal overflow across 16 screen widths, from 375 to 1440 px.",
+      ],
+      tags: ["JavaScript", "three.js", "WebGL", "node:test", "Playwright"],
+      destacado: false,
+      cifra: { valor: "22", nota: "tests · demonstration project" },
+      estado: "Demonstration project",
+      enlace: "https://libreria-encantada.vercel.app",
     },
   ],
 

@@ -94,19 +94,19 @@ export const es: Contenido = {
 
   traza: {
     etiqueta: "Pruebas acumuladas",
-    contexto: "seis suites ejecutadas el {fecha}",
+    contexto: "ocho suites medidas: {fecha}",
     aprobadas: "aprobadas",
     fallidas: "fallidas",
     omitidas: "omitidas",
-    omitidasNota: "solo corren en Linux",
+    omitidasNota: "cuatro solo corren en Linux",
     aria: "Traza de pruebas acumuladas por suite: {detalle}.",
   },
 
   metricas: [
     {
-      valor: "1,719",
+      valor: "5,068",
       etiqueta: "pruebas automatizadas",
-      nota: "En seis repositorios, ejecutadas y en verde: pytest y vitest",
+      nota: "En ocho repositorios, ejecutadas y en verde: pytest, vitest, JUnit y node:test",
     },
     {
       valor: "5",
@@ -463,7 +463,7 @@ export const es: Contenido = {
     },
     /*
      * Franky es el servidor, pero lo que se cuenta como caso es lo que se puede probar:
-     * Tara y el panel de control, con 243 pruebas. La infraestructura en sí queda como
+     * Tara y el panel de control, con 3,411 pruebas. La infraestructura en sí queda como
      * contexto. Sin `enlace`: los repositorios son privados.
      */
     {
@@ -473,7 +473,8 @@ export const es: Contenido = {
       rol: "Autor y administrador",
       detalles: [
         "Un Dell OptiPlex con Debian que ejecuta cinco contenedores Docker y los demás servicios bajo systemd. Está protegido con fail2ban y el panel de administración solo se alcanza por Tailscale.",
-        "Tara, un asistente personal sobre Hermes: recordatorios por hora y por lugar, alertas de correo, transcripción local de notas de voz y automatizaciones de la casa. Está respaldado por 205 pruebas en pytest.",
+        "Tara, un asistente personal sobre Hermes: recordatorios por hora y por lugar, alertas de correo, transcripción local de notas de voz y automatizaciones de la casa. Está respaldado por 3,373 pruebas en pytest que corren sin red, con la base de datos y el estado en archivos reales.",
+        "Una app propia para iPhone y Apple Watch que conversa con el asistente, y vigilancia del estado SMART de los discos del servidor.",
         "Un panel web para administrar el servidor, diseñado con la seguridad como requisito: acciones tipadas en lugar de shell libre, confirmación en dos pasos con un token que caduca y auditoría de cada acción.",
         "El panel acepta órdenes en lenguaje natural, pero el modelo solo propone una acción del catálogo; nunca ejecuta texto libre. Sus 38 pruebas cubren ese contrato.",
         "Los secretos no viven en los repositorios: están en archivos con permisos restringidos fuera del control de versiones.",
@@ -488,8 +489,42 @@ export const es: Contenido = {
         "Self-hosting",
       ],
       destacado: false,
-      cifra: { valor: "243", nota: "pruebas · en producción" },
+      cifra: { valor: "3,411", nota: "pruebas · en producción" },
       estado: "En producción",
+    },
+    /* Sin `enlace`: el repositorio es privado. Sin marcas ni el vehículo del cliente. */
+    {
+      nombre: "Colorado Launcher",
+      resumen:
+        "Interfaz a medida para una radio Android de carro, instalada en mi camioneta: radio FM, música por USB, teléfono por Bluetooth y mandos del volante. Los fallos se diagnostican con los registros del propio equipo, porque no hay otra forma de ver qué pasa adentro.",
+      rol: "Autor",
+      detalles: [
+        "La música por Bluetooth se pausaba sola. Reproduje el fallo en vivo, seguí los registros del sistema hasta la causa —el foco de audio quedaba en cero— y dejé una regla que lo detecta y lo corrige sin intervención.",
+        "Java sobre Android 8.1, sin Gradle: un script compila y firma con aapt2, javac, d8 y apksigner.",
+        "Se niega a instalarse en una pantalla de otro tamaño, y un solo script revierte la instalación.",
+        "159 pruebas en JUnit sobre la lógica de la aplicación, que corren en la JVM sin necesidad de la radio.",
+      ],
+      tags: ["Java", "Android", "JUnit", "logcat", "Bluetooth"],
+      destacado: true,
+      cifra: { valor: "159", nota: "pruebas · instalada y en uso" },
+      estado: "En uso",
+    },
+    {
+      nombre: "Tinta de Luna",
+      resumen:
+        "Prototipo de una librería ficticia: un vestíbulo en 3D desde el que se entra a tres direcciones de sitio navegables. Es un proyecto demostrativo, y lo pruebo como si tuviera clientes.",
+      rol: "Diseño, desarrollo y QA",
+      detalles: [
+        "HTML, CSS y JavaScript sin paso de compilación, con escenas en WebGL sobre three.js.",
+        "22 pruebas con node:test sobre el catálogo, el oráculo y la cesta.",
+        "Pruebas de humo en escritorio, móvil y con movimiento reducido, para que el 3D nunca sea la única forma de usar el sitio.",
+        "Sin desborde horizontal en 16 anchos de pantalla, de 375 a 1440 px.",
+      ],
+      tags: ["JavaScript", "three.js", "WebGL", "node:test", "Playwright"],
+      destacado: false,
+      cifra: { valor: "22", nota: "pruebas · proyecto demostrativo" },
+      estado: "Proyecto demostrativo",
+      enlace: "https://libreria-encantada.vercel.app",
     },
   ],
 
